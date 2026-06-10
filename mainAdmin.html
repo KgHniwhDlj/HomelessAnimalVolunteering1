@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Помощь бездомным животным</title>
+</head>
+<body>
+<div class="button-group">
+    <button id="employee-btn" type="button" class="toggle-btn active" onclick="selectButton(this)">Список сотрудников</button>
+    <button id="enclosure-btn" type="button" class="toggle-btn" onclick="selectButton(this)">Список вольеров</button>
+</div>
+<section id="employees">
+    <h2>Список сотрудников</h2>
+    <div class="employees-container" style="margin: 10px 10px 10px 5px;">
+        <button id="create-employee-btn" class="edit-employee" type="button">Добавить сотрудника</button>
+        <button id="delete-employee-btn" class="edit-employee" type="button">Удалить сотрудника</button>
+        <button id="edit-employee-btn" class="edit-employee" type="button">Изменить данные о сотруднике</button>
+    </div>
+    <table style=" width: 100%; border: 1px solid black; padding: 4px; text-align: left; margin: 10px 10px 10px 5px;">
+        <tr>
+            <th>ID</th>
+            <th>ФИО сотрудника</th>
+            <th>Почта</th>
+            <th>Телефон</th>
+            <th>Адрес</th>
+            <th>Роль</th>
+            <th>Пароль</th>
+        </tr>
+    </table>
+</section >
+<section id="enclosures" style="display: none;">
+    <h2>Список вольеров</h2>
+    <div class="enclosure-container" style="margin: 10px 10px 10px 5px;">
+        <button id="create-enclouser-btn" class="edit-enclouser" type="button">Добавить вольер</button>
+        <button id="delete-encluser-btn" class="edit-enclouser" type="button">Удалить вольер</button>
+        <button id="edit-enclouser-btn" class="edit-enclouser" type="button">Изменить данные о вольере</button>
+    </div>
+    <table style=" width: 100%; border: 1px solid black; padding: 4px; text-align: left; margin: 10px 10px 10px 5px;">
+        <tr>
+            <th>ID</th>
+            <th>Размер</th>
+            <th>Название</th>
+            <th>Дата</th>
+            <th>Адрес</th>
+        </tr>
+    </table>
+</section>
+<a href="authorization.html">Выйти</a>
+<script type="module" src="/src/mainAdmin.js"></script>
+</body>
+</html>
