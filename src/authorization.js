@@ -5,19 +5,44 @@ function authenticate() {
     let email = document.getElementById('email');
     let password = document.getElementById('password');
 
-    let userEmail = email.value;
+    let userEmail = email.value.trim();
     let userPassword = password.value;
     if (userEmail === '' || userPassword === '') {
       alert('Пожалуйста, введите данные');
-    } else if (userEmail === 'admin@example.com' && userPassword === 'admin123') {
-      window.location.href = 'mainAdmin.html';
-    } else if (userPassword.length < 8) {
-      alert('Неверный пароль!');
-    } else if (!userEmail.includes('@')) {
-      alert('Неверный формат электронной почты!');
-    } else {
-      window.location.href = 'mainUser.html';
+      return;
     }
+    if (userEmail === 'admin@example.com' && userPassword === 'admin123') {
+      window.location.href = 'mainAdmin.html';
+      return;
+    }
+
+  let foundEmployee = null;
+
+  for (let i = 0; i < localStorage.length; i++) {
+    let key = localStorage.key(i);
+
+    if (key.startsWith('employee_')) {
+      let existingEmployee = JSON.parse(localStorage.getItem(key));
+
+
+      if (
+        existingEmployee.email.toLocaleLowerCase() === userEmail.toLocaleLowerCase()
+      ) {
+        foundEmployee = existingEmployee;
+      }
+    }
+  }
+  if (foundEmployee === null) {
+    alert("Пользователя с такой почтой не существует!");
+    return;
+  }
+  if (foundEmployee && foundEmployee.password !== userPassword) {
+    alert("Неверный пароль!");
+    return;
+  }
+
+      window.location.href = 'mainUser.html';
+
 }
 
 authorizationBtn.addEventListener('click', authenticate);

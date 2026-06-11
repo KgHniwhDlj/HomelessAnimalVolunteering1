@@ -7,15 +7,33 @@
 <body>
 <main id="registration">
     <section class="infoInput">
-        <div>
+        <!-- <div>
+            <button id="employee-btn" type="button" class="toggle-btn active" onclick="selectButton(this)">Список сотрудников</button>
+            <button id="enclosure-btn" type="button" class="toggle-btn" onclick="selectButton(this)">Список вольеров</button>
+        </div> -->
+        <section id="employees" style="margin: 10px 10px 10px 5px;">
+            <input id="input-employee-name" type="text"  maxlength="200" placeholder="ФИО"> <br>
+            <input id="input-employee-email" type="text" maxlength="50" placeholder="электронная почта"> <br>
+            <input id="input-employee-phone" type="text" maxlength="13" placeholder="телефон"> <br>
+            <input id="input-employee-address" type="text" maxlength="200" placeholder="адрес"> <br>
+            <input id="input-employee-password" type="text" maxlength="20" placeholder="пароль"> <br>
+            <button id="create-employee-btn" style="margin: 5px 5px 5px 0">Добавить работника</button>
+        </section>
+        <section id="enclosures" style="display: none; margin: 10px 10px 10px 5px;">
+        to be continued...
+        </section>
+        <!--
+        <div style="margin: 10px 10px 10px 5px;">
             <input id="new-email" type="text" placeholder="электронная почта" maxlength="50" required> <br>
             <input id="new-password" type="password" placeholder="Пароль" maxlength="30" required>
         </div>
         <div>
             <button id="registration-btn" type="button" > Зарегестрироваться </button>
         </div>
+        -->
     </section>
 </main>
 <script type="module" src="/src/registration.js"></script>
+<!-- <script type="module" src="/src/mainAdmin.js"></script> -->
 </body>
 </html>

@@ -12,11 +12,43 @@
 <section id="employees">
     <h2>Список сотрудников</h2>
     <div class="employees-container" style="margin: 10px 10px 10px 5px;">
-        <button id="create-employee-btn" class="edit-employee" type="button">Добавить сотрудника</button>
-        <button id="delete-employee-btn" class="edit-employee" type="button">Удалить сотрудника</button>
-        <button id="edit-employee-btn" class="edit-employee" type="button">Изменить данные о сотруднике</button>
+        <button id="create-employee-btn" class="edit-employee" type="button" onclick="createEmployee()">Добавить сотрудника</button>
+        <button id="delete-employee-btn" class="edit-employee" type="button" onclick="deleteEmployee()">Удалить сотрудника</button>
+        <button id="edit-employee-btn" class="edit-employee" type="button" onclick="editEmployee()">Изменить данные о сотруднике</button>
     </div>
-    <table style=" width: 100%; border: 1px solid black; padding: 4px; text-align: left; margin: 10px 10px 10px 5px;">
+    <div id="employee-deletion" style="display: none">
+        <h3>Введите номер сотрудника для его удаления</h3>
+        <input id="id-employee-deletion" type="text" style="margin: 2px 2px 2px 5px; width: 10px;">
+        <button id="deletion-employee-found-btn" onclick="findEmployeeToDelete()">Найти</button>
+        <div class="employee-container-info" id="employee-deletion-info" style="display: none">
+            <table class="employee-table" style=" width: 100%; border: 1px solid black; padding: 4px; text-align: left; margin: 10px 10px 10px 5px;">
+                <tr>
+                    <th>ID</th>
+                    <th>ФИО сотрудника</th>
+                    <th>Почта</th>
+                    <th>Телефон</th>
+                    <th>Адрес</th>
+                    <th>Роль</th>
+                    <th>Пароль</th>
+                </tr>
+            </table>
+            <button id="deletion-employee-btn" onclick="confirmDeletion()">Удалить</button>
+        </div>
+    </div>
+    <div id="employee-editing" style="display: none; margin: 10px 10px 10px 5px;">
+        <h3>Редактирование сотрудника</h3>
+        <input id="id-employee-editing" type="text" placeholder="Введите ID" style="width: 50px; margin-bottom: 10px;">
+        <button id="editing-employee-found-btn" onclick="findEmployeeToEdit()">Найти</button>
+        <div id="employee-editing-form" style="display: none; margin-top: 10px;">
+            <input id="edit-employee-name" type="text" placeholder="ФИО"> <br>
+            <input id="edit-employee-email" type="text" placeholder="Электронная почта"> <br>
+            <input id="edit-employee-phone" type="text" placeholder="Телефон"> <br>
+            <input id="edit-employee-address" type="text" placeholder="Адрес"> <br>
+            <input id="edit-employee-password" type="text" placeholder="Пароль"> <br>
+            <button id="save-employee-changes-btn" onclick="saveEmployeeChanges()" style="margin-top: 5px;">Сохранить изменения</button>
+        </div>
+    </div>
+    <table id="employee-main-table" style=" width: 100%; border: 1px solid black; padding: 4px; text-align: left; margin: 10px 10px 10px 5px;">
         <tr>
             <th>ID</th>
             <th>ФИО сотрудника</th>
@@ -31,9 +63,9 @@
 <section id="enclosures" style="display: none;">
     <h2>Список вольеров</h2>
     <div class="enclosure-container" style="margin: 10px 10px 10px 5px;">
-        <button id="create-enclouser-btn" class="edit-enclouser" type="button">Добавить вольер</button>
-        <button id="delete-encluser-btn" class="edit-enclouser" type="button">Удалить вольер</button>
-        <button id="edit-enclouser-btn" class="edit-enclouser" type="button">Изменить данные о вольере</button>
+        <button id="create-enclouser-btn" class="edit-enclouser" type="button" onclick="createEnclosure()">Добавить вольер</button>
+        <button id="delete-encluser-btn" class="edit-enclouser" type="button" onclick="deleteEnclosure()">Удалить вольер</button>
+        <button id="edit-enclouser-btn" class="edit-enclouser" type="button" onclick="editEnclosure()">Изменить данные о вольере</button>
     </div>
     <table style=" width: 100%; border: 1px solid black; padding: 4px; text-align: left; margin: 10px 10px 10px 5px;">
         <tr>
