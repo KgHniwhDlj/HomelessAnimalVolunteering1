@@ -41,7 +41,8 @@ function authenticate() {
     return;
   }
 
-      window.location.href = 'mainUser.html';
+    localStorage.setItem('current_user_id', foundEmployee.id);
+    window.location.href = 'mainUser.html';
 
 }
 
