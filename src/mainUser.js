@@ -1,4 +1,5 @@
 
+
 function openForm(closedForm) {
     let form = document.getElementById(closedForm);
     if (form.style.display === 'none') {
@@ -98,9 +99,7 @@ function displayAnimal() {
 
 function createNewAnimal() {
   let currentEmployeeId =
-    localStorage.getItem('current_user_id') ||
-    sessionStorage.getItem('current_user_id') ||
-    '1';
+    localStorage.getItem('current_user_id')  || '1';
 
   let newAnimalName = document.getElementById('pet-name').value.trim();
   let newAnimalSpecies = document.getElementById('pet-species').value;
@@ -163,8 +162,8 @@ function createNewAnimal() {
   displayAnimal();
 }
 
-function renderFoundTable(foundAnimals) {
-    const table = document.getElementById('found-pet-table');
+function renderFoundTable(foundAnimals, tableId) {
+    const table = document.getElementById(tableId);
 
     while (table.rows.length > 1) {
         table.deleteRow(1);
@@ -216,6 +215,7 @@ function getEmployeeName(employeeId) {
 
 function findAnimal(input) {
     let data = document.getElementById(input).value.trim().toLowerCase();
+    const table = document.getElementById('found-pet-table');
 
     if (!data) return;
 
@@ -249,9 +249,202 @@ function findAnimal(input) {
           }
         }
     }
-    renderFoundTable(foundAnimals);
+    renderFoundTable(foundAnimals, 'found-pet-table');
 }
 
+let animalId = null;
+
+function findAnimalById(input) {
+    animalId = document.getElementById(input).value.trim().toLowerCase();
+
+      if (!animalId) return;
+
+      let foundAnimals = [];
+
+      for (let i = 0; i < localStorage.length; i++) {
+        let key = localStorage.key(i);
+
+        if (key.startsWith('animal_')) {
+          let animal = JSON.parse(localStorage.getItem(key));
+
+          let matchId = animal.id && animal.id.toString() === animalId;
+
+          if (matchId) {
+            foundAnimals.push(animal);
+          }
+        }
+      }
+      renderFoundTable(foundAnimals, 'found-pet-by-id-table');
+    let form = document.getElementById('pet-edit-btns');
+    if (form.style.display === 'none') {
+      form.style.display = 'block';
+    }
+      return animalId;
+}
+
+function moveToNewEnclosure() {
+    let newPetEnclosure = document.getElementById('pet-new-enclosure').value;
+
+    if (newPetEnclosure.includes('Укажите')) {
+        alert("Укажите новый вольер!");
+        return;
+    }
+
+    let currentEmployeeId = localStorage.getItem('current_user_id')  || '1';
+
+    let now = new Date();
+    let formattedDate = `${String(now.getDate()).padStart(2, '0')}.${String(now.getMonth() + 1).padStart(2, '0')}.${now.getFullYear()} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+
+    let keyAnimal = `animal_${animalId}`;
+    let animalData = localStorage.getItem(keyAnimal);
+
+    if (animalData) {
+        let animal = JSON.parse(animalData);
+
+        animal.enclosure = newPetEnclosure;
+        animal.updateEmployee = currentEmployeeId;
+        animal.updateDate = formattedDate;
+
+        localStorage.setItem(keyAnimal, JSON.stringify(animal));
+
+        let foundAnimals = [];
+        let matchId = animal.id && animal.id.toString() === animalId;
+        if (matchId) {
+          foundAnimals.push(animal);
+        }
+
+        alert("Данные успешно обновлены!")
+        displayAnimal();
+        renderFoundTable(foundAnimals, 'found-pet-by-id-table');
+    } else {
+        alert("Животного с таким ID не найдено!")
+    }
+}
+
+function changeCondition() {
+    let newPetCondition = document.getElementById('pet-new-condition').value;
+
+    if (newPetCondition.includes('Укажите')) {
+        alert("Выберите новое состояние!");
+        return;
+    }
+    let currentEmployeeId = localStorage.getItem('current_user_id') || '1';
+
+    let now = new Date();
+    let formattedDate = `${String(now.getDate()).padStart(2, '0')}.${String(now.getMonth() + 1).padStart(2, '0')}.${now.getFullYear()} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+
+    let keyAnimal = `animal_${animalId}`;
+    let animalData = localStorage.getItem(keyAnimal);
+
+    if (animalData) {
+        let animal = JSON.parse(localStorage.getItem(keyAnimal));
+
+        animal.conditions = newPetCondition;
+        animal.updateEmployee = currentEmployeeId;
+        animal.updateDate = formattedDate;
+
+        localStorage.setItem(keyAnimal, JSON.stringify(animal));
+
+        let foundAnimals = [];
+        let matchId = animal.id && animal.id.toString() === animalId;
+        if (matchId) {
+          foundAnimals.push(animal);
+        }
+
+        alert('Данные успешно обновлены!');
+        displayAnimal();
+        renderFoundTable(foundAnimals, 'found-pet-by-id-table');
+    } else {
+      alert('Животного с таким ID не найдено!');
+    }
+}
+
+function changeStatus() {
+    let newPetStatus = document.getElementById('pet-new-status').value;
+
+    if (newPetStatus.includes('Укажите')) {
+        alert("Укажите новое состояние");
+        return;
+    }
+    let currentEmployeeId = localStorage.getItem('current_user_id') || '1';
+    let now = new Date();
+    let formattedDate = `${String(now.getDate()).padStart(2, '0')}.${String(now.getMonth() + 1).padStart(2, '0')}.${now.getFullYear()} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+
+    let keyAnimal = `animal_${animalId}`;
+    let animalData = localStorage.getItem(keyAnimal);
+
+    if (animalData) {
+        let animal = JSON.parse(animalData);
+
+        animal.status = newPetStatus;
+        animal.updateEmployee = currentEmployeeId;
+        animal.updateDate = formattedDate;
+
+        localStorage.setItem(keyAnimal, JSON.stringify(animal));
+
+        let foundAnimals = [];
+        let matchId = animal.id && animal.id.toString() === animalId;
+        if (matchId) {
+          foundAnimals.push(animal);
+        }
+
+        alert('Данные успешно обновлены!');
+        displayAnimal();
+        renderFoundTable(foundAnimals, 'found-pet-by-id-table');
+    } else {
+        alert("Животного с таким ID не найдено!");
+        }
+}
+
+function changeData() {
+    let newPetName = document.getElementById('pet-new-name').value;
+    let newPetDescription = document.getElementById('pet-new-description').value;
+
+    let currentEmployeeId = localStorage.getItem('current_user_id' || '1');
+    let now = new Date();
+    let formattedDate = `${String(now.getDate()).padStart(2, '0')}.${String(now.getMonth() + 1).padStart(2, '0')}.${now.getFullYear()} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+
+    let keyAnimal = `animal_${animalId}`;
+    let animalData = localStorage.getItem(keyAnimal);
+
+    if (animalData) {
+      let animal = JSON.parse(localStorage.getItem(keyAnimal));
+
+      animal.name = newPetName;
+      animal.description = newPetDescription;
+      animal.updateEmployee = currentEmployeeId;
+      animal.updateDate = formattedDate;
+
+      localStorage.setItem(keyAnimal, JSON.stringify(animal));
+
+      let foundAnimals = [];
+      let matchId = animal.id && animal.id.toString() === animalId;
+      if (matchId) {
+          foundAnimals.push(animal);
+      }
+
+      alert('Данные успешно обновлены!');
+      displayAnimal();
+      renderFoundTable(foundAnimals, 'found-pet-by-id-table');
+    } else {
+      alert('Животного с таким ID не найдено!');
+    }
+
+}
+
+function deleteAnimal() {
+    let keyAnimal = `animal_${animalId}`;
+    localStorage.removeItem(keyAnimal);
+    alert("Животное успешно удалено");
+    displayAnimal();
+}
+
+window.moveToNewEnclosure = moveToNewEnclosure;
+window.changeCondition = changeCondition;
+window.changeStatus = changeStatus;
+window.changeData = changeData;
+window.deleteAnimal = deleteAnimal;
+window.findAnimalById = findAnimalById;
 window.createNewAnimal = createNewAnimal;
 window.findAnimal = findAnimal;
 window.openForm = openForm;

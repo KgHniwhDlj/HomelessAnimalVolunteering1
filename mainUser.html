@@ -13,6 +13,47 @@
         <button id="find-pet-container-btn" class="pet-btn" onclick="openForm('find-pet-container')">Найти животное</button>
         <button id="edit-pet-btn" class="pet-btn" onclick="openForm('find-pet-by-id-container')">Редактировать данные</button>
     </div>
+    <div id="create-new-pet" class="pet-container" style="display: none">
+        <label> Введите кличку животного <br>
+            <input id="pet-name" type="text" placeholder="Кличка" style="margin: 0 5px 5px 0; width: 192px"> <br>
+        </label>
+        <select id="pet-species" class="pet-selector">
+            <option>Выберите вид животного...</option>
+            <option>Собака</option>
+            <option>Кошка</option>
+            <option>Кролик</option>
+            <option>Хомяк</option>
+            <option>Крыса</option>
+            <option>Морская свинка</option>
+            <option>Птица</option>
+            <option>Другое (указать в описании)</option>
+        </select ><br>
+        <select id="pet-enclosure" class="pet-selector">
+            <option>Укажите вольер...</option>
+            <option>2</option>
+            <option>3</option>
+        </select><br>
+        <select id="pet-condition" class="pet-selector">
+            <option>Укажите состояние...</option>
+            <option>Здоровый(-ая)</option>
+            <option>На лечении / Болеет</option>
+            <option>Карантин (первичный осмотр)</option>
+            <option>Травмирован(а)</option>
+            <option>Особенный(-ая) / Инвалидность</option>
+            <option>Требуется вакцинация / Стерилизация</option>
+        </select><br>
+        <select id="pet-status" class="pet-selector">
+            <option>Укажите статус...</option>
+            <option>Поступил</option>
+            <option>Ищет дом</option>
+            <option>Пристроен</option>
+        </select><br>
+        <label> Описание животного <br>
+            <textarea id="pet-description" placeholder="Введите описание" style="width: 194px;"></textarea>
+        </label>
+        <button id="add-new-pet" onclick="createNewAnimal()">Добавить</button>
+    </div>
+
     <div id="find-pet-container" class="pet-container" style="display: none">
         <label>Введите данные о животном, чтобы найти <br>
             <input id="input-for-search-pet" type="text" placeholder="Введите данные о животном...">
@@ -38,7 +79,7 @@
         <label>Введите ID животного, чьи данные хотите отредактировать
             <input type="text" id="get-pet-id" placeholder="ID животного">
         </label>
-        <button id="find-pet-by-id-btn">Найти</button>
+        <button id="find-pet-by-id-btn" onclick="findAnimalById('get-pet-id')">Найти</button>
         <table id="found-pet-by-id-table" style=" width: 100%; border: 1px solid black;  text-align: left; margin: 10px 10px 10px 5px;">
             <tr>
                 <th>ID</th>
@@ -55,44 +96,12 @@
             </tr>
         </table>
         <div id="pet-edit-btns" class="pet-container" style="display: none">
-            <button id="move-pet-btn" class="pet-btn" type="button" onclick="openForm('')">Переместить в другой вольер</button>
-            <button id="condition-change-pet-btn" class="pet-btn" type="button" onclick="openForm('')">Изменить состояние</button>
-            <button id="status-change-pet-btn" class="pet-btn" type="button" onclick="openForm('')">Смена статуса</button>
-            <button id="change-pet-info-btn" class="pet-btn" type="button" onclick="openForm('')">Изменить данные</button>
-            <button id="delete-pet-btn" class="pet-btn" type="button">Удалить животное</button>
+            <button id="move-pet-btn" class="pet-btn" type="button" onclick="openForm('pet-change-enclosure')">Переместить в другой вольер</button>
+            <button id="condition-change-pet-btn" class="pet-btn" type="button" onclick="openForm('pet-change-condition')">Изменить состояние</button>
+            <button id="status-change-pet-btn" class="pet-btn" type="button" onclick="openForm('pet-change-status')">Смена статуса</button>
+            <button id="change-pet-info-btn" class="pet-btn" type="button" onclick="openForm('pet-change-data')">Изменить данные</button>
+            <button id="delete-pet-btn" class="pet-btn" type="button" onclick="openForm('delete-pet')">Удалить животное</button>
         </div>
-    </div>
-    <div id="create-new-pet" class="pet-container" style="display: none">
-        <label> Введите кличку животного <br>
-            <input id="pet-name" type="text" placeholder="Кличка" style="margin: 0 5px 5px 0; width: 192px"> <br>
-        </label>
-        <select id="pet-species" class="pet-selector">
-            <option>Выберите вид животного...</option>
-            <option>Собака</option>
-            <option>Др.</option>
-        </select ><br>
-        <select id="pet-enclosure" class="pet-selector">
-            <option>Укажите вольер...</option>
-            <option>2</option>
-            <option>3</option>
-        </select><br>
-        <select id="pet-condition" class="pet-selector">
-            <option>Укажите состояние...</option>
-            <option>Здоровый(-ая)</option>
-            <option>Больной(-ая)</option>
-            <option>Другое</option>
-        </select><br>
-        <select id="pet-status" class="pet-selector">
-            <option>Укажите статус...</option>
-            <option>Поступил</option>
-            <option>Ищет дом</option>
-            <option>Пристроен</option>
-        </select><br>
-        <label> Описание животного <br>
-            <textarea id="pet-description" placeholder="Введите описание" style="width: 194px;"></textarea>
-        </label>
-        <button id="add-new-pet" onclick="createNewAnimal()">Добавить</button>
-    </div>
     <div id="pet-change-enclosure" class="pet-container" style="display: none">
         <label>
             Выберите новый вольер <br>
@@ -101,6 +110,7 @@
                 <option>2</option>
                 <option>3</option>
             </select>
+            <button id="confirm-new-enclosure" onclick="moveToNewEnclosure()">Сохранить изменения</button>
         </label>
     </div>
     <div id="pet-change-condition" class="pet-container" style="display: none">
@@ -108,9 +118,13 @@
             <select id="pet-new-condition" class="pet-selector">
                 <option>Укажите состояние...</option>
                 <option>Здоровый(-ая)</option>
-                <option>Больной(-ая)</option>
-                <option>Другое</option>
+                <option>На лечении / Болеет</option>
+                <option>Карантин (первичный осмотр)</option>
+                <option>Травмирован(а)</option>
+                <option>Особенный(-ая) / Инвалидность</option>
+                <option>Требуется вакцинация / Стерилизация</option>
             </select>
+            <button id="confirm-new-condition" onclick="changeCondition()">Сохранить изменения</button>
         </label>
     </div>
     <div id="pet-change-status" class="pet-container" style="display: none">
@@ -121,6 +135,7 @@
                 <option>Ищет дом</option>
                 <option>Пристроен</option>
             </select>
+            <button id="confirm-new-status" onclick="changeStatus()">Сохранить изменения</button>
         </label>
     </div>
     <div id="pet-change-data" class="pet-container" style="display: none">
@@ -130,6 +145,14 @@
         <label> Введите новое описание животного <br>
             <textarea id="pet-new-description" placeholder="Введите описание" style="width: 194px;"></textarea>
         </label>
+        <button id="confirm-new-data" onclick="changeData()">Сохранить изменения</button>
+    </div>
+    <div id="delete-pet" class="pet-container" style="display: none; margin: 0 5px 5px 5px;">
+        <label>
+            Подтвердите удаление <br>
+            <button id="confirm-delete-pet" onclick="deleteAnimal()">Удалить</button>
+        </label>
+    </div>
     </div>
     <table id="pet-main-table" style=" width: 100%; border: 1px solid black;  text-align: left; margin: 10px 10px 10px 5px;">
         <tr>
