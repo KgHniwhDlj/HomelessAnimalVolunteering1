@@ -3,16 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <title>Помощь бездомным животным</title>
-    <link rel="stylesheet" href="/mainUser.css">
+    <link rel="stylesheet" href="/style.css">
 </head>
 <body>
 <section id="Pets">
+
     <h2>Список животных</h2>
-    <div class="pet-container" style="margin: 10px 10px 10px 5px;">
+    <div class="vertical-buttons" style="margin: 10px 10px 10px 5px;">
         <button id="create-pet-btn" class="pet-btn" type="button" onclick="openForm('create-new-pet')">Зарегистрировать животное</button>
         <button id="find-pet-container-btn" class="pet-btn" onclick="openForm('find-pet-container')">Найти животное</button>
         <button id="edit-pet-btn" class="pet-btn" onclick="openForm('find-pet-by-id-container')">Редактировать данные</button>
     </div>
+    <div style="width: 100%; margin: 10px 10px 10px 5px;">
     <div id="create-new-pet" class="pet-container" style="display: none">
         <label> Введите кличку животного <br>
             <input id="pet-name" type="text" placeholder="Кличка" style="margin: 0 5px 5px 0; width: 192px"> <br>
@@ -169,6 +171,7 @@
             <th>Описание</th>
         </tr>
     </table>
+    </div>
 </section >
 <script type="module" src="/src/mainUser.js"></script>
 <a href="authorization.html">Выйти</a>

@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Помощь бездомным животным</title>
+    <link rel="stylesheet" href="/style.css">
 </head>
 <body>
 <div class="button-group">
@@ -10,12 +11,15 @@
     <button id="enclosure-btn" type="button" class="toggle-btn" onclick="selectButton(this)">Список вольеров</button>
 </div>
 <section id="employees">
+
     <h2>Список сотрудников</h2>
-    <div class="employees-container" style="margin: 10px 10px 10px 5px;">
+    <div class="vertical-buttons" style="margin: 10px 10px 10px 5px;">
         <button id="create-employee-btn" class="edit-employee" type="button" onclick="createEmployee()">Добавить сотрудника</button>
+        <button id="find-employee-btn" class="edit-employee" type="button" onclick="findEmployeeForm()">Найти сотрудника</button>
         <button id="delete-employee-btn" class="edit-employee" type="button" onclick="deleteEmployee()">Удалить сотрудника</button>
         <button id="edit-employee-btn" class="edit-employee" type="button" onclick="editEmployee()">Изменить данные о сотруднике</button>
     </div>
+    <div style="width: 100%; margin: 10px 10px 10px 5px;">
     <div id="employee-creation-form" style="display: none; margin: 10px 10px 10px 5px;">
         <h3>Введите данные нового сотрудника</h3>
         <input id="input-employee-name" type="text"  maxlength="200" placeholder="ФИО"> <br>
@@ -25,9 +29,26 @@
         <input id="input-employee-password" type="text" maxlength="20" placeholder="пароль"> <br>
         <button id="submit-employee-btn" onclick="createNewEmployee()" style="margin: 5px 5px 5px 0">Добавить работника</button>
     </div>
+        <div id="find-employee-container" style="display: none; margin: 10px 10px 10px 5px;">
+            <label>Введите данные сотрудника, чтобы найти:
+                <input type="text" id="employee-id-to-find" placeholder="Данные сотрудника">
+                <button id="find-employee-submit-btn" onclick="findEmployee('employee-id-to-find')">Найти</button>
+            </label>
+            <table id="found-employee-table" style=" width: 100%; border: 1px solid black; padding: 4px; text-align: left; margin: 10px 10px 10px 5px;">
+                <tr>
+                    <th>ID</th>
+                    <th>ФИО сотрудника</th>
+                    <th>Почта</th>
+                    <th>Телефон</th>
+                    <th>Адрес</th>
+                    <th>Роль</th>
+                    <th>Пароль</th>
+                </tr>
+            </table>
+        </div>
     <div id="employee-deletion" style="display: none">
         <h3>Введите ID сотрудника для его удаления</h3>
-        <input id="id-employee-deletion" type="text" style="margin: 2px 2px 2px 5px; width: 10px;">
+        <input id="id-employee-deletion" type="text" style="margin: 2px 2px 2px 5px;" placeholder="ID сотрудника">
         <button id="deletion-employee-found-btn" onclick="findEmployeeToDelete()">Найти</button>
         <div class="employee-container-info" id="employee-deletion-info" style="display: none">
             <table class="employee-table" style=" width: 100%; border: 1px solid black; padding: 4px; text-align: left; margin: 10px 10px 10px 5px;">
@@ -68,27 +89,45 @@
             <th>Пароль</th>
         </tr>
     </table>
+    </div>
 </section >
 <section id="enclosures" style="display: none;">
     <h2>Список вольеров</h2>
-    <div class="enclosure-container" style="margin: 10px 10px 10px 5px;">
+    <div class="vertical-buttons" style="margin: 10px 10px 10px 5px;">
         <button id="create-enclouser-btn" class="edit-enclouser" type="button" onclick="createEnclosure()">Добавить вольер</button>
+        <button id="find-enclouser-btn" class="edit-enclouser" type="button" onclick="findEnclosuresForm()">Найти вольер</button>
         <button id="delete-encluser-btn" class="edit-enclouser" type="button" onclick="deleteEnclosure()">Удалить вольер</button>
         <button id="edit-enclouser-btn" class="edit-enclouser" type="button" onclick="editEnclosure()">Изменить данные о вольере</button>
     </div>
+    <div style="width: 100%; margin: 10px 10px 10px 5px;">
     <div id="create-enclosure-container" class="enclosure-container" style="display: none">
-        <section id="enclosures-creation" style="margin: 10px 10px 10px 5px;">
+        <div id="enclosures-creation" style="margin: 10px 10px 10px 5px;">
             <h3>Введите данные нового вольера</h3>
             <input id="input-enclosure-name" type="text"  maxlength="200" placeholder="Название"> <br>
             <input id="input-enclosure-size" type="text" maxlength="50" placeholder="Размер вольера (кв. м)"> <br>
-            <input id="input-enclosure-date" type="date" maxlength="13" placeholder="Дата"> <br>
+            <input id="input-enclosure-date" type="date" maxlength="13" placeholder="Дата" style="width: 197px"> <br>
             <input id="input-enclosure-address" type="text" maxlength="200" placeholder="Адрес"> <br>
             <button id="create-enclosure-btn" onclick="createNewEnclosure()" style="margin: 5px 5px 5px 0">Добавить вольер</button>
-        </section>
+        </div>
     </div>
+        <div id="find-enclosure-container" style="display: none; margin: 10px 10px 10px 5px;">
+            <label>Введите данные вольера, чтобы найти:
+                <input type="text" id="enclosure-id-to-find" placeholder="Данные вольера">
+                <button id="find-enclosure-submit-btn" onclick="findEnclosures('enclosure-id-to-find')">Найти</button>
+            </label>
+            <table id="found-enclosure-table" style=" width: 100%; border: 1px solid black; padding: 4px; text-align: left; margin: 10px 10px 10px 5px;">
+                <tr>
+                    <th>ID</th>
+                    <th>Название</th>
+                    <th>Размер (кв. м)</th>
+                    <th>Дата</th>
+                    <th>Адрес</th>
+                </tr>
+            </table>
+        </div>
     <div id="delete-enclosure-container" class="enclosure-container" style="display: none">
         <h3>Введите ID вольера для его удаления</h3>
-        <input id="id-enclosure-deletion" type="text" style="margin: 2px 2px 2px 5px; width: 10px;">
+        <input id="id-enclosure-deletion" type="text" style="margin: 2px 2px 2px 5px;" placeholder="ID вольера">
         <button id="deletion-enclosure-found-btn" onclick="findEnclosureToDelete()">Найти</button>
         <div class="enclosure-container-info" id="enclosure-deletion-info" style="display: none">
             <table class="enclosure-table" style=" width: 100%; border: 1px solid black; padding: 4px; text-align: left; margin: 10px 10px 10px 5px;">
@@ -124,6 +163,7 @@
             <th>Адрес</th>
         </tr>
     </table>
+    </div>
 </section>
 <a href="authorization.html">Выйти</a>
 <script type="module" src="/src/mainAdmin.js"></script>

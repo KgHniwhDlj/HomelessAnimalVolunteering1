@@ -1,33 +1,35 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <link rel="icon" type="image/svg+xml" href="/webstorm-icon-logo.svg" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Авторизация | Помощь бездомным животным</title>
-  <link rel="stylesheet" href="/style.css">
+    <meta charset="UTF-8"/>
+    <link rel="icon" type="image/svg+xml" href="/webstorm-icon-logo.svg"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Авторизация | Помощь бездомным животным</title>
+    <link rel="stylesheet" href="/style.css">
 </head>
 <body>
 <header class="logo">
-  <h1 class="title">
-    Авторизация
-  </h1>
+    <h1 class="title">
+        Авторизация
+    </h1>
 </header>
 <main id="authorization">
-  <section class="infoInput" style="justify-content: center;">
-    <div class="counter-interaction">
-      <input id="email" type="text" placeholder="Электронная почта" maxlength="50" style="width: 300px; height: 30px; font-size: 12pt;" required> <br>
-      <input id="password" type="password" placeholder="Пароль" maxlength="30" style="width: 300px; height: 30px; font-size: 12pt;" required>
-    </div>
-    <div style="display: flex; justify-content: center;">
-      <button id="submit-btn" type="button" style="width: 80px; font-size: 12pt;"> Войти </button>
-    </div>
-  </section>
+    <section class="infoInput" style="justify-content: center;">
+        <div class="counter-interaction">
+            <input id="email" type="text" placeholder="Электронная почта" maxlength="50"
+                   style="width: 300px; height: 30px; font-size: 12pt;" required> <br>
+            <input id="password" type="password" placeholder="Пароль" maxlength="30"
+                   style="width: 300px; height: 30px; font-size: 12pt;" required>
+        </div>
+        <div style="display: flex; justify-content: center;">
+            <button id="submit-btn" class="auth-btn" type="button" style="width: 80px; font-size: 12pt;"> Войти</button>
+        </div>
+    </section>
 </main>
 <footer class="adminData">
-  Admin <br>
-  email: admin@example.com <br>
-  password: admin123
+    Admin <br>
+    email: admin@example.com <br>
+    password: admin123
 </footer>
 <script type="module" src="/src/authorization.js"></script>
 </body>

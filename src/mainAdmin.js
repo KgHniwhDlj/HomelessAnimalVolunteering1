@@ -82,10 +82,10 @@ function selectButton(clickedButton) {
 
   if(employeeBtn.classList.contains('active')){
     enclosures.style.display = 'none';
-    employees.style.display = 'block';
+    employees.style.display = 'flex';
   } else {
     employees.style.display = 'none';
-    enclosures.style.display = 'block';
+    enclosures.style.display = 'flex';
   }
 }
 

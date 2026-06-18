@@ -291,6 +291,86 @@ function saveEmployeeChanges() {
   }
 }
 
+function findEmployeeForm() {
+  let findForm = document.getElementById('find-employee-container');
+
+  if (findForm.style.display === 'none') {
+    findForm.style.display = 'block';
+  } else {
+    findForm.style.display = 'none';
+  }
+}
+
+function renderFoundTable(foundEmployees, tableId) {
+  const table = document.getElementById(tableId);
+
+  while (table.rows.length > 1) {
+    table.deleteRow(1);
+  }
+
+  if (foundEmployees.length === 0) {
+    alert('Совпадения не найдены!');
+    return;
+  }
+
+  foundEmployees.forEach((employee) => {
+    let row = table.insertRow();
+
+    row.insertCell(0).innerText = employee.id || '-';
+    row.insertCell(1).innerText = employee.name || '-';
+    row.insertCell(2).innerText = employee.email || '-';
+    row.insertCell(3).innerText = employee.phone || '-';
+    row.insertCell(4).innerText = employee.address || '-';
+    row.insertCell(5).innerText = employee.role || '-';
+    row.insertCell(6).innerText = employee.password;
+  });
+}
+
+
+function findEmployee(input) {
+  let data = document.getElementById(input).value.trim().toLowerCase();
+
+  if (!data) return;
+
+  let foundEmployees = [];
+
+  for (let i = 0; i < localStorage.length; i++) {
+    let key = localStorage.key(i);
+
+    if (key.startsWith('employee_')) {
+      let employee = JSON.parse(localStorage.getItem(key));
+
+      let matchName =
+        employee.name && employee.name.toLowerCase().includes(data);
+      let matchId = employee.id && employee.id.toString() === data;
+      let matchEmail =
+        employee.email && employee.email.toLowerCase().includes(data);
+      let matchPhone =
+        employee.phone && employee.phone.toString().includes(data);
+      let matchAddress =
+        employee.address && employee.address.toLowerCase().includes(data);
+      let matchRole =
+        employee.role && employee.role.toLowerCase().includes(data);
+      let matchPassword =
+        employee.password && employee.password.toLowerCase().includes(data);
+
+
+      if (
+        matchName ||
+        matchId ||
+        matchEmail ||
+        matchPhone ||
+        matchAddress ||
+        matchRole ||
+        matchPassword
+      ) {
+        foundEmployees.push(employee);
+      }
+    }
+  }
+  renderFoundTable(foundEmployees, 'found-employee-table');
+}
+
 window.createEmployee = createEmployee;
 window.createNewEmployee = createNewEmployee;
 window.deleteEmployee = deleteEmployee;
@@ -299,3 +379,5 @@ window.confirmEmployeeDeletion = confirmEmployeeDeletion;
 window.editEmployee = editEmployee;
 window.findEmployeeToEdit = findEmployeeToEdit;
 window.saveEmployeeChanges = saveEmployeeChanges;
+window.findEmployeeForm = findEmployeeForm;
+window.findEmployee = findEmployee;

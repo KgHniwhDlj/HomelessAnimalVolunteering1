@@ -238,6 +238,77 @@ function saveEnclosureChanges() {
   }
 }
 
+function findEnclosuresForm() {
+  let findForm = document.getElementById('find-enclosure-container');
+
+  if (findForm.style.display === 'none') {
+    findForm.style.display = 'block';
+  } else {
+    findForm.style.display = 'none';
+  }
+}
+
+function renderFoundTableEnclosures(foundEnclosures, tableId) {
+  const table = document.getElementById(tableId);
+
+  while (table.rows.length > 1) {
+    table.deleteRow(1);
+  }
+
+  if (foundEnclosures.length === 0) {
+    alert('Совпадения не найдены!');
+    return;
+  }
+
+  foundEnclosures.forEach((enclosure) => {
+    let row = table.insertRow();
+
+    row.insertCell(0).innerText = enclosure.id || '-';
+    row.insertCell(1).innerText = enclosure.name || '-';
+    row.insertCell(2).innerText = enclosure.size || '-';
+    row.insertCell(3).innerText = enclosure.date || '-';
+    row.insertCell(4).innerText = enclosure.address;
+  });
+}
+
+
+function findEnclosures(input) {
+  let data = document.getElementById(input).value.trim().toLowerCase();
+
+  if (!data) return;
+
+  let foundEnclosures = [];
+
+  for (let i = 0; i < localStorage.length; i++) {
+    let key = localStorage.key(i);
+
+    if (key.startsWith('enclosure_')) {
+      let enclosure = JSON.parse(localStorage.getItem(key));
+
+      let matchName =
+        enclosure.name && enclosure.name.toLowerCase().includes(data);
+      let matchId = enclosure.id && enclosure.id.toString() === data;
+      let matchEmail =
+        enclosure.email && enclosure.size.toLowerCase().includes(data);
+      let matchPhone =
+        enclosure.phone && enclosure.date.toString().includes(data);
+      let matchAddress =
+        enclosure.address && enclosure.address.toLowerCase().includes(data);
+
+      if (
+        matchName ||
+        matchId ||
+        matchEmail ||
+        matchPhone ||
+        matchAddress
+      ) {
+        foundEnclosures.push(enclosure);
+      }
+    }
+  }
+  renderFoundTableEnclosures(foundEnclosures, 'found-enclosure-table');
+}
+
 window.createEnclosure = createEnclosure;
 window.createNewEnclosure = createNewEnclosure;
 window.deleteEnclosure = deleteEnclosure;
@@ -246,3 +317,5 @@ window.confirmEnclosureDeletion = confirmEnclosureDeletion;
 window.editEnclosure = editEnclosure;
 window.findEnclosureToEdit = findEnclosureToEdit;
 window.saveEnclosureChanges = saveEnclosureChanges;
+window.findEnclosures = findEnclosures;
+window.findEnclosuresForm = findEnclosuresForm;
