@@ -67,7 +67,7 @@ export function SimpleEmployeeTable({ employees }) {
           <th>Электронная почта</th>
           <th>Телефон</th>
           <th>Адрес</th>
-          <th>Дата создания аккаунта</th>
+          <th>Пароль</th>
         </tr>
         </thead>
         <tbody>
@@ -78,7 +78,7 @@ export function SimpleEmployeeTable({ employees }) {
               <td>{emp.email}</td>
               <td>{emp.phone}</td>
               <td>{emp.address}</td>
-              <td>{emp.date}</td>
+              <td>{emp.password}</td>
             </tr>
         ))}
         </tbody>

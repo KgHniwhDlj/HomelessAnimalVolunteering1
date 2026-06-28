@@ -11,7 +11,7 @@ import EnclosureManager, {
     EditEnclosureForm,
     SimpleEnclosureTable
 } from "./EnclosureManager";
-import ImageAvatars from "./Test";
+
 
 export function toggleTables(setNewStatus) {
     setNewStatus(prevState => !prevState);

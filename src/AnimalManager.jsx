@@ -202,49 +202,91 @@ export function CreatePetForm({ onSuccess }) {
     };
 
     return (
-        <div id="create-new-pet-form" style={{ margin: "10px 10px 10px 5px" }}>
-            <h3>Введите данные нового питомца</h3>
+      <div id="create-new-pet-form" style={{ margin: '10px 10px 10px 5px' }}>
+        <h3>Введите данные нового питомца</h3>
 
-            <input type="text" placeholder="Кличка" style={fieldStyle} value={name} onChange={e => setName(e.target.value)} /><br />
+        <input
+          type="text"
+          placeholder="Кличка"
+          style={fieldStyle}
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+        <br />
 
-            <select style={fieldStyle} value={species} onChange={e => setSpecies(e.target.value)}>
-                <option>Выберите вид...</option>
-                <option value="Млекопитающее">Млекопитающее</option>
-                <option value="Птица">Птица</option>
-                <option value="Рептилия">Рептилия</option>
-            </select><br />
+        <select
+          style={fieldStyle}
+          value={species}
+          onChange={(e) => setSpecies(e.target.value)}
+        >
+          <option>Выберите вид...</option>
+          <option value="Птица">Птица</option>
+          <option value="Собака">Собака</option>
+          <option value="Кошка">Кошка</option>
+          <option value="Кролик">Кролик</option>
+          <option value="Хомяк">Хомяк</option>
+          <option value="Крыса">Крыса</option>
+          <option value="Морская свинка">Морская свинка</option>
+          <option value="Другое">Другое (указать в описании)</option>
+        </select>
+        <br />
 
-            <select className="pet-selector" style={fieldStyle} value={enclosure} onChange={e => setEnclosure(e.target.value)}>
-                <option>Укажите вольер...</option>
-                {enclosuresList.map((encName, idx) => (
-                    <option key={idx} value={encName}>{encName}</option>
-                ))}
-            </select><br />
+        <select
+          className="pet-selector"
+          style={fieldStyle}
+          value={enclosure}
+          onChange={(e) => setEnclosure(e.target.value)}
+        >
+          <option>Укажите вольер...</option>
+          {enclosuresList.map((encName, idx) => (
+            <option key={idx} value={encName}>
+              {encName}
+            </option>
+          ))}
+        </select>
+        <br />
 
-            <select style={fieldStyle} value={condition} onChange={e => setCondition(e.target.value)}>
-                <option>Укажите состояние...</option>
-                <option value="Здоров">Здоров</option>
-                <option value="Лечение">Лечение</option>
-                <option value="Карантин">Карантин</option>
-            </select><br />
+        <select
+          style={fieldStyle}
+          value={condition}
+          onChange={(e) => setCondition(e.target.value)}
+        >
+          <option>Укажите состояние...</option>
+          <option value="Здоров(а)">Здоров(а)</option>
+          <option value="Лечение">Лечение</option>
+          <option value="Карантин">Карантин</option>
+          <option value="Травмирован(а)">Травмирован(а)</option>
+          <option value="Инвалидность">Инвалидность</option>
+          <option value="Требуется вакцинация / Стерилизация">
+            Требуется вакцинация / Стерилизация
+          </option>
+        </select>
+        <br />
 
-            <select style={fieldStyle} value={status} onChange={e => setStatus(e.target.value)}>
-                <option>Укажите статус...</option>
-                <option value="Активен">Активен</option>
-                <option value="Переведен">Переведен</option>
-            </select><br />
+        <select
+          style={fieldStyle}
+          value={status}
+          onChange={(e) => setStatus(e.target.value)}
+        >
+          <option>Укажите статус...</option>
+          <option value="Поступил">Поступил</option>
+          <option value="Ищет дом">Ищет дом</option>
+          <option value="Пристроен">Пристроен</option>
+        </select>
+        <br />
 
-            <textarea
-                placeholder="Описание"
-                style={{ ...fieldStyle, height: "60px", fontFamily: "inherit" }}
-                value={description}
-                onChange={e => setDescription(e.target.value)}
-            /><br />
+        <textarea
+          placeholder="Описание"
+          style={{ ...fieldStyle, height: '60px', fontFamily: 'inherit' }}
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+        />
+        <br />
 
-            <button onClick={createNewAnimal} style={{ margin: "5px 5px 5px 0" }}>
-                Добавить питомца
-            </button>
-        </div>
+        <button onClick={createNewAnimal} style={{ margin: '5px 5px 5px 0' }}>
+          Добавить питомца
+        </button>
+      </div>
     );
 }
 
