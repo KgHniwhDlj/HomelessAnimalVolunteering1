@@ -1,15 +1,56 @@
 {
-  "name": "HomlessAnimalVolunteering",
-  "private": true,
+  "name": "homlessanimalvolunteering",
   "version": "0.0.0",
-  "type": "module",
+  "private": true,
+  "description": "Веб-приложение для автоматизации работы сотрудников и администраторов приюта. Позволяет регистрировать поступивших животных, отслеживать их состояние, статус и распределение по вольерам.\r Модуль Администратора предоставляет возможность создавать новые вольеры и регистрировать новых сотрудников в систему, а так же редактировать данные как сотрудников, так и вольеров.",
+  "homepage": "https://github.com/KgHniwhDlj/HomelessAnimalVolunteering1#readme",
+  "bugs": {
+    "url": "https://github.com/KgHniwhDlj/HomelessAnimalVolunteering1/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KgHniwhDlj/HomelessAnimalVolunteering1.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "main": "src/index.js",
   "scripts": {
     "dev": "vite",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "react-scripts start",
     "build": "vite build",
     "preview": "vite preview"
+  },
+  "dependencies": {
+    "detect-libc": "^2.1.2",
+    "fdir": "^6.5.0",
+    "lightningcss": "^1.32.0",
+    "lightningcss-win32-x64-msvc": "^1.32.0",
+    "nanoid": "^3.3.12",
+    "picocolors": "^1.1.1",
+    "picomatch": "^4.0.4",
+    "postcss": "^8.5.15",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "react-scripts": "^5.0.1",
+    "rolldown": "^1.0.3",
+    "source-map-js": "^1.2.1",
+    "tinyglobby": "^0.2.17"
   },
   "devDependencies": {
     "prettier": "^3.3.1",
     "vite": "^8.0.16"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }
