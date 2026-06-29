@@ -56,9 +56,8 @@ export function SimpleEnclosureTable({ enclosures }) {
         id: 'size',
         label: 'Размер (кв. м)',
         align: 'right',
-        sortable: false,
       },
-      { id: 'date', label: 'Дата создания', align: 'right', sortable: false },
+      { id: 'date', label: 'Дата создания', align: 'right' },
       { id: 'address', label: 'Адрес', align: 'right', sortable: false },
     ];
 

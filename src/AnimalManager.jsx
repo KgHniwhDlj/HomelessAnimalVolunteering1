@@ -84,14 +84,12 @@ export function SimplePetTable({ pets: propsPets }) {
       id: 'addDate',
       label: 'Дата добавления',
       align: 'right',
-      sortable: false,
     },
     { id: 'addEmployee', label: 'Добавил(а)', align: 'right', sortable: false },
     {
       id: 'updateDate',
       label: 'Дата последнего изменения',
       align: 'right',
-      sortable: false,
     },
     {
       id: 'updateEmployee',
