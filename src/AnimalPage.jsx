@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { toggleTables } from "./AdminPage";
-import PetManager, { CreatePetForm, SimplePetTable, EditPetManager } from "./AnimalManager";
+import PetManager, { CreatePetForm, SimplePetTable } from "./AnimalManager";
+import EditPetManager from './EditPetManager';
 
 export default function AnimalTable({ onLogout }) {
     const [isCreateAnimal, setIsCreateAnimal] = useState(false);

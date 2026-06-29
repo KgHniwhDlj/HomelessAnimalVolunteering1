@@ -1,6 +1,12 @@
 import { useState, useEffect } from 'react';
+//import {Table, TableCell, TableContainer, TableHead, TableRow} from "@mui/material";
+import MuiTable from "./MuiTable";
+
+
 
 export default function EmployeeManager() {
+
+
   const [allEmployees, setAllEmployees] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -10,6 +16,9 @@ export default function EmployeeManager() {
       setAllEmployees(JSON.parse(saved));
     }
   }, []);
+
+
+
 
   const filteredEmployees = allEmployees.filter((employee) => {
     if (!searchQuery.trim()) return true;
@@ -48,6 +57,22 @@ export default function EmployeeManager() {
 export function SimpleEmployeeTable({ employees }) {
   const [localEmployees, setLocalEmployees] = useState([]);
 
+  const employeeColumns = [
+    { id: 'id', label: 'ID' },
+    { id: 'name', label: 'ФИО', align: 'right' },
+    {
+      id: 'email',
+      label: 'Электронная почта',
+      align: 'right',
+      sortable: false,
+    },
+    { id: 'phone', label: 'Телефон', align: 'right', sortable: false },
+    { id: 'address', label: 'Адрес', align: 'right', sortable: false },
+    { id: 'password', label: 'Пароль', align: 'right', sortable: false },
+  ];
+
+
+
   useEffect(() => {
 
     if (!employees) {
@@ -56,33 +81,47 @@ export function SimpleEmployeeTable({ employees }) {
     }
   }, [employees]);
 
-  const displayList = employees || localEmployees;
+  //const displayList = employees || localEmployees;
 
   return (
-      <table id="employee-main-table" style={{ width: "100%", border: "1px solid black", textAlign: "left", margin: "10px 10px 10px 5px" }}>
-        <thead>
-        <tr>
-          <th>ID</th>
-          <th>ФИО</th>
-          <th>Электронная почта</th>
-          <th>Телефон</th>
-          <th>Адрес</th>
-          <th>Пароль</th>
-        </tr>
-        </thead>
-        <tbody>
-        {displayList.map((emp) => (
-            <tr key={emp.id}>
-              <td>{emp.id}</td>
-              <td>{emp.name}</td>
-              <td>{emp.email}</td>
-              <td>{emp.phone}</td>
-              <td>{emp.address}</td>
-              <td>{emp.password}</td>
-            </tr>
-        ))}
-        </tbody>
-      </table>
+    <>
+      <MuiTable
+        data={employees}
+        columns={employeeColumns}
+      />
+      {/*<table*/}
+      {/*  id="employee-main-table"*/}
+      {/*  style={{*/}
+      {/*    width: '100%',*/}
+      {/*    border: '1px solid black',*/}
+      {/*    textAlign: 'left',*/}
+      {/*    margin: '10px 10px 10px 5px',*/}
+      {/*  }}*/}
+      {/*>*/}
+      {/*  <thead>*/}
+      {/*    <tr>*/}
+      {/*      <th>ID</th>*/}
+      {/*      <th>ФИО</th>*/}
+      {/*      <th>Электронная почта</th>*/}
+      {/*      <th>Телефон</th>*/}
+      {/*      <th>Адрес</th>*/}
+      {/*      <th>Пароль</th>*/}
+      {/*    </tr>*/}
+      {/*  </thead>*/}
+      {/*  <tbody>*/}
+      {/*    {displayList.map((emp) => (*/}
+      {/*      <tr key={emp.id}>*/}
+      {/*        <td>{emp.id}</td>*/}
+      {/*        <td>{emp.name}</td>*/}
+      {/*        <td>{emp.email}</td>*/}
+      {/*        <td>{emp.phone}</td>*/}
+      {/*        <td>{emp.address}</td>*/}
+      {/*        <td>{emp.password}</td>*/}
+      {/*      </tr>*/}
+      {/*    ))}*/}
+      {/*  </tbody>*/}
+      {/*</table>*/}
+    </>
   );
 }
 

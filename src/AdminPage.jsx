@@ -11,6 +11,7 @@ import EnclosureManager, {
     EditEnclosureForm,
     SimpleEnclosureTable
 } from "./EnclosureManager";
+import { Box } from '@mui/material';
 
 
 export function toggleTables(setNewStatus) {
@@ -117,21 +118,26 @@ export default function AdminTables({ onLogout }) {
 
             {isCreateEnclosureOpen && !isEmployeeTable && (
                 <CreateEnclosureForm onSuccess={() => { setIsCreateEnclosureOpen(false); refreshEnclosures(); }} />
+
             )}
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
             {isFindEnclosureOpen && !isEmployeeTable && (
                 <EnclosureManager />
             )}
+
             {isDeleteEnclosureOpen && !isEmployeeTable && (
                 <DeleteEnclosureForm onDeleteSuccess={() => { setIsDeleteEnclosureOpen(false); refreshEnclosures(); }} />
             )}
             {isEditEnclosureOpen && !isEmployeeTable && (
                 <EditEnclosureForm onEditSuccess={() => { setIsEditEnclosureOpen(false); refreshEnclosures(); }} />
             )}
-
+            <Box>
             {isEmployeeTable ?
                 <SimpleEmployeeTable employees={employees} /> :
                 <SimpleEnclosureTable enclosures={enclosures} />
             }
+            </Box>
+          </Box>
         </>
     );
 }
