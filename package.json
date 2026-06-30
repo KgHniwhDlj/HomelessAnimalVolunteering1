@@ -18,10 +18,10 @@
     "dev": "vite",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "react-scripts start",
-    "build:vite": "vite docs",
-    "build": "echo docs",
-    "build:win": "SET GENERATE_SOURCEMAP=false && react-scripts docs",
-    "build:dev:win": "SET GENERATE_SOURCEMAP=true && react-scripts docs",
+    "build:vite": "vite build",
+    "build": "echo build",
+    "build:win": "SET GENERATE_SOURCEMAP=false && react-scripts build",
+    "build:dev:win": "SET GENERATE_SOURCEMAP=true && react-scripts build",
     "preview": "vite preview"
   },
   "dependencies": {
