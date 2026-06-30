@@ -32,10 +32,7 @@ export default function AnimalTable({ onLogout }) {
           }}
         >
           <h1>Список животных</h1>
-          <button
-            className="exit-btn"
-            onClick={onLogout}
-          >
+          <button className="exit-btn" onClick={onLogout}>
             Выйти из системы
           </button>
         </header>
@@ -52,6 +49,14 @@ export default function AnimalTable({ onLogout }) {
           >
             Зарегистрировать животное
           </button>
+          {isCreateAnimal && (
+            <CreatePetForm
+              onSuccess={() => {
+                setIsCreateAnimal(false);
+                refreshPets();
+              }}
+            />
+          )}
           <button
             id="find-pet-container-btn"
             className="pet-btn"
@@ -59,6 +64,7 @@ export default function AnimalTable({ onLogout }) {
           >
             Найти животное
           </button>
+          {isFindAnimal && <PetManager />}
           <button
             id="edit-pet-btn"
             className="pet-btn"
@@ -66,23 +72,9 @@ export default function AnimalTable({ onLogout }) {
           >
             Редактировать данные
           </button>
-        </div>
-
-        {isCreateAnimal && (
-          <CreatePetForm
-            onSuccess={() => {
-              setIsCreateAnimal(false);
-              refreshPets();
-            }}
-          />
-        )}
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-          {isFindAnimal && <PetManager />}
           {isEditAnimal && <EditPetManager onPetsUpdated={refreshPets} />}
-          <Box>
+        </div>
             <SimplePetTable pets={pets} />
-          </Box>
-        </Box>
       </>
     );
 }

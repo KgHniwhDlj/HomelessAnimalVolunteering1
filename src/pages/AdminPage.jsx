@@ -60,10 +60,7 @@ export default function AdminTables({ onLogout }) {
               margin: '10px 10px 10px 5px',
             }}
           >
-            <button
-              className="exit-btn"
-              onClick={onLogout}
-            >
+            <button className="exit-btn" onClick={onLogout}>
               Выйти из системы
             </button>
           </div>
@@ -89,24 +86,58 @@ export default function AdminTables({ onLogout }) {
             >
               Зарегистрировать сотрудника
             </button>
+            {isCreateEmployeeOpen && (
+              <div style={{ margin: '10px 10px 10px 5px' }}>
+                <CreateEmployeeForm
+                  onSuccess={() => {
+                    setIsCreateEmployeeOpen(false);
+                    refreshEmployees();
+                  }}
+                />
+              </div>
+            )}
             <button
               className="pet-btn"
               onClick={() => toggleTables(setIsFindEmployeeOpen)}
             >
               Найти сотрудника
             </button>
-            <button
-              className="pet-btn"
-              onClick={() => toggleTables(setIsDeleteEmployeeOpen)}
-            >
-              Удалить сотрудника
-            </button>
+            {isFindEmployeeOpen && (
+              <div
+                id="find-employee-container"
+                style={{ margin: '10px 10px 10px 5px' }}
+              >
+                <EmployeeManager />
+              </div>
+            )}
             <button
               className="pet-btn"
               onClick={() => toggleTables(setIsEditEmployeeOpen)}
             >
               Редактировать данные
             </button>
+            {isEditEmployeeOpen && (
+              <EditEmployeeForm
+                onEditSuccess={() => {
+                  setIsEditEmployeeOpen(false);
+                  refreshEmployees();
+                }}
+              />
+            )}
+            <button
+              className="pet-btn"
+              onClick={() => toggleTables(setIsDeleteEmployeeOpen)}
+            >
+              Удалить сотрудника
+            </button>
+            {isDeleteEmployeeOpen && (
+              <DeleteEmployeeForm
+                onDeleteSuccess={() => {
+                  setIsDeleteEmployeeOpen(false);
+                  refreshEmployees();
+                }}
+              />
+            )}
           </div>
         )}
 
@@ -122,97 +153,61 @@ export default function AdminTables({ onLogout }) {
             >
               Создать вольер
             </button>
+            {isCreateEnclosureOpen && (
+              <CreateEnclosureForm
+                onSuccess={() => {
+                  setIsCreateEnclosureOpen(false);
+                  refreshEnclosures();
+                }}
+              />
+            )}
             <button
               className="pet-btn"
               onClick={() => toggleTables(setIsFindEnclosureOpen)}
             >
               Найти вольер
             </button>
-            <button
-              className="pet-btn"
-              onClick={() => toggleTables(setIsDeleteEnclosureOpen)}
-            >
-              Удалить вольер
-            </button>
+            {isFindEnclosureOpen && (
+              <div style={{ margin: '10px 10px 10px 5px' }}>
+                <EnclosureManager />
+              </div>
+            )}
+
             <button
               className="pet-btn"
               onClick={() => toggleTables(setIsEditEnclosureOpen)}
             >
               Редактировать вольер
             </button>
-          </div>
-        )}
-
-        {isCreateEmployeeOpen && isEmployeeTable && (
-          <div style={{ margin: '10px 10px 10px 5px' }}>
-            <CreateEmployeeForm
-              onSuccess={() => {
-                setIsCreateEmployeeOpen(false);
-                refreshEmployees();
-              }}
-            />
-          </div>
-        )}
-        {isFindEmployeeOpen && isEmployeeTable && (
-          <div
-            id="find-employee-container"
-            style={{ margin: '10px 10px 10px 5px' }}
-          >
-            <EmployeeManager />
-          </div>
-        )}
-        {isDeleteEmployeeOpen && isEmployeeTable && (
-          <DeleteEmployeeForm
-            onDeleteSuccess={() => {
-              setIsDeleteEmployeeOpen(false);
-              refreshEmployees();
-            }}
-          />
-        )}
-        {isEditEmployeeOpen && isEmployeeTable && (
-          <EditEmployeeForm
-            onEditSuccess={() => {
-              setIsEditEmployeeOpen(false);
-              refreshEmployees();
-            }}
-          />
-        )}
-
-        {isCreateEnclosureOpen && !isEmployeeTable && (
-          <CreateEnclosureForm
-            onSuccess={() => {
-              setIsCreateEnclosureOpen(false);
-              refreshEnclosures();
-            }}
-          />
-        )}
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-          {isFindEnclosureOpen && !isEmployeeTable && <EnclosureManager />}
-
-          {isDeleteEnclosureOpen && !isEmployeeTable && (
-            <DeleteEnclosureForm
-              onDeleteSuccess={() => {
-                setIsDeleteEnclosureOpen(false);
-                refreshEnclosures();
-              }}
-            />
-          )}
-          {isEditEnclosureOpen && !isEmployeeTable && (
-            <EditEnclosureForm
-              onEditSuccess={() => {
-                setIsEditEnclosureOpen(false);
-                refreshEnclosures();
-              }}
-            />
-          )}
-          <Box>
-            {isEmployeeTable ? (
-              <SimpleEmployeeTable employees={employees} />
-            ) : (
-              <SimpleEnclosureTable enclosures={enclosures} />
+            {isEditEnclosureOpen && !isEmployeeTable && (
+              <EditEnclosureForm
+                onEditSuccess={() => {
+                  setIsEditEnclosureOpen(false);
+                  refreshEnclosures();
+                }}
+              />
             )}
-          </Box>
-        </Box>
+            <button
+              className="pet-btn"
+              onClick={() => toggleTables(setIsDeleteEnclosureOpen)}
+            >
+              Удалить вольер
+            </button>
+            {isDeleteEnclosureOpen && !isEmployeeTable && (
+              <DeleteEnclosureForm
+                onDeleteSuccess={() => {
+                  setIsDeleteEnclosureOpen(false);
+                  refreshEnclosures();
+                }}
+              />
+            )}
+          </div>
+        )}
+        {isEmployeeTable ? (
+          <SimpleEmployeeTable employees={employees} />
+        ) : (
+          <SimpleEnclosureTable enclosures={enclosures} />
+        )}
       </>
     );
 }
