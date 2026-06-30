@@ -45,39 +45,74 @@ export default function AuthorizationPage() {
 
 
     return (
-        <section className="infoInput" style={{ justifyContent: "center" }}>
-            <h1>Авторизация</h1>
-            <div className="counter-interaction">
-                <input
-                    type="text"
-                    placeholder="Электронная почта"
-                    maxLength={50}
-                    style={{ width: "300px", height: "30px", fontSize: "12pt" }}
-                    required
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                /> <br />
-                <input
-                    type="password"
-                    placeholder="Пароль"
-                    maxLength={30}
-                    style={{ width: "300px", height: "30px", fontSize: "12pt" }}
-                    required
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                />
-            </div>
-            <div style={{ display: "flex", justifyContent: "center" }}>
-                <button
-                    id="submit-btn"
-                    className="auth-btn"
-                    type="button"
-                    style={{ width: "80px", fontSize: "12pt" }}
-                    onClick={authenticate}
-                >
-                    Войти
-                </button>
-            </div>
-        </section>
+      <section
+        className="infoInput"
+        style={{ justifyContent: 'center', flexDirection: 'column' }}
+      >
+        <header
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: '100%',
+            boxSizing: 'border-box',
+            padding: '0 20px',
+          }}
+        >
+          <h1>Авторизация</h1>
+        </header>
+        <div
+          className="counter-interaction"
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+        >
+          <input
+            type="text"
+            placeholder="Электронная почта"
+            maxLength={50}
+            style={{
+              width: '300px',
+              height: '30px',
+              fontSize: '12pt',
+              border: '1px solid #3e332e',
+              marginBottom: '2px',
+              marginTop: '2px',
+              padding: '5px',
+            }}
+            required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />{' '}
+          <input
+            type="password"
+            placeholder="Пароль"
+            maxLength={30}
+            style={{
+              width: '300px',
+              height: '30px',
+              fontSize: '12pt',
+              border: '1px solid #3e332e',
+              marginBottom: '2px',
+            }}
+            required
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </div>
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <button
+            id="submit-btn"
+            className="auth-btn"
+            type="button"
+            style={{ width: '80px', fontSize: '12pt' }}
+            onClick={authenticate}
+          >
+            Войти
+          </button>
+        </div>
+      </section>
     );
 }

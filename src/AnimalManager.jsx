@@ -22,7 +22,7 @@ export default function PetManager() {
             String(pet.id) === query ||
             pet.name?.toLowerCase().includes(query) ||
             pet.species?.toLowerCase().includes(query) ||
-            pet.enclosure?.toLowerCase().includes(query) ||
+            String(pet.enclosure) === query ||
             pet.status?.toLowerCase().includes(query)
         );
     });
@@ -103,60 +103,6 @@ export function SimplePetTable({ pets: propsPets }) {
     return (
       <>
         <MuiTable data={propsPets} columns={animalColumns}/>
-        {/*<table*/}
-        {/*  id="pet-main-table"*/}
-        {/*  style={{*/}
-        {/*    width: '100%',*/}
-        {/*    border: '1px solid black',*/}
-        {/*    padding: '4px',*/}
-        {/*    textAlign: 'left',*/}
-        {/*    margin: '10px 10px 10px 5px',*/}
-        {/*  }}*/}
-        {/*>*/}
-        {/*  <thead>*/}
-        {/*    <tr style={{ backgroundColor: '#f2f2f2' }}>*/}
-        {/*      <th>ID</th>*/}
-        {/*      <th>Кличка</th>*/}
-        {/*      <th>Вид</th>*/}
-        {/*      <th>Вольер</th>*/}
-        {/*      <th>Состояние</th>*/}
-        {/*      <th>Статус</th>*/}
-        {/*      <th>Дата добавления</th>*/}
-        {/*      <th>Добавил(а)</th>*/}
-        {/*      <th>Дата последнего изменения</th>*/}
-        {/*      <th>Изменил(а)</th>*/}
-        {/*      <th>Описание</th>*/}
-        {/*    </tr>*/}
-        {/*  </thead>*/}
-        {/*  <tbody>*/}
-        {/*    {displayPets.length > 0 ? (*/}
-        {/*      displayPets.map((pet) => (*/}
-        {/*        <tr key={pet.id} style={{ borderBottom: '1px solid #ddd' }}>*/}
-        {/*          <td>{pet.id}</td>*/}
-        {/*          <td>{pet.name}</td>*/}
-        {/*          <td>{pet.species}</td>*/}
-        {/*          <td>{pet.enclosure}</td>*/}
-        {/*          <td>{pet.conditions}</td>*/}
-        {/*          <td>{pet.status}</td>*/}
-        {/*          <td>{pet.addDate}</td>*/}
-        {/*          <td>{pet.addEmployee}</td>*/}
-        {/*          <td>{pet.updateDate}</td>*/}
-        {/*          <td>{pet.updateEmployee}</td>*/}
-        {/*          <td>{pet.description}</td>*/}
-        {/*        </tr>*/}
-        {/*      ))*/}
-        {/*    ) : (*/}
-        {/*      <tr>*/}
-        {/*        <td*/}
-        {/*          colSpan="11"*/}
-        {/*          style={{ textAlign: 'center', padding: '10px' }}*/}
-        {/*        >*/}
-        {/*          В базе данных пока нет питомцев*/}
-        {/*        </td>*/}
-        {/*      </tr>*/}
-        {/*    )}*/}
-        {/*  </tbody>*/}
-        {/*</table>*/}
       </>
     );
 }

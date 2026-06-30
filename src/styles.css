@@ -14,7 +14,19 @@ body {
     margin: 3px 5px 5px 0;
 }
 
+.exit-btn {
+    background-color: #ff4d4d;
+    color: white;
+    margin: 0;
+    cursor: pointer
+}
 
+.exit-btn:hover {
+    background-color: #fb7676;
+}
+.exit-btn:active {
+    background-color: #c30d0d;
+}
 
 /* Style the header */
 header {
