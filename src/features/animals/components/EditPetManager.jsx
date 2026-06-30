@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { SimplePetTable } from './AnimalManager';
-import BasicSelect from './MuiSelect';
-import { useEnclosures } from './UseEnclosures';
+import BasicSelect from '../../../components/MuiSelect';
+import { useEnclosures } from '../../../hooks/UseEnclosures';
+import SimplePetTable from './SimplePetTable';
 
 export default function EditPetManager({ onPetsUpdated }) {
   const [searchId, setSearchId] = useState('');

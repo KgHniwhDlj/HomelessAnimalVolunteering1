@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
-import AuthorizationPage from './AuthorizationPage';
-import AdminPage from './AdminPage';
-import UserPage from './AnimalPage';
+import AuthorizationPage from './pages/AuthorizationPage';
+import AdminPage from './pages/AdminPage';
+import UserPage from './pages/AnimalPage';
 
 function AdminRoute() {
     const navigate = useNavigate();

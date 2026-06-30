@@ -1,17 +1,15 @@
 import { useState, useEffect } from 'react';
-import EmployeeManager, {
-    SimpleEmployeeTable,
-    CreateEmployeeForm,
-    DeleteEmployeeForm,
-    EditEmployeeForm
-} from "./EmployeeManager";
-import EnclosureManager, {
-    CreateEnclosureForm,
-    DeleteEnclosureForm,
-    EditEnclosureForm,
-    SimpleEnclosureTable
-} from "./EnclosureManager";
 import { Box } from '@mui/material';
+import CreateEmployeeForm from '../features/admin/components/employees/CreateEmployeeForm';
+import EmployeeManager from '../features/admin/components/employees/EmployeeManager';
+import DeleteEmployeeForm from '../features/admin/components/employees/DeleteEmployeeForm';
+import EditEmployeeForm from '../features/admin/components/employees/EditEmployeeForm';
+import CreateEnclosureForm from '../features/admin/components/enclosures/CreateEnclosureForm';
+import EnclosureManager from '../features/admin/components/enclosures/EnclosureManager';
+import DeleteEnclosureForm from '../features/admin/components/enclosures/DeleteEnclosureForm';
+import EditEnclosureForm from '../features/admin/components/enclosures/EditEnclosureForm';
+import SimpleEmployeeTable from '../features/admin/components/employees/SimpleEmployeeTable';
+import SimpleEnclosureTable from '../features/admin/components/enclosures/SimpleEnclosureTable';
 
 
 export function toggleTables(setNewStatus) {
