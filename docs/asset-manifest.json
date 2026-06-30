@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/KgHniwhDlj/HomelessAnimalVolunteering1/static/css/main.9e8c0120.css",
+    "main.js": "/KgHniwhDlj/HomelessAnimalVolunteering1/static/js/main.7c5d55da.js",
+    "index.html": "/KgHniwhDlj/HomelessAnimalVolunteering1/index.html",
+    "main.9e8c0120.css.map": "/KgHniwhDlj/HomelessAnimalVolunteering1/static/css/main.9e8c0120.css.map",
+    "main.7c5d55da.js.map": "/KgHniwhDlj/HomelessAnimalVolunteering1/static/js/main.7c5d55da.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.9e8c0120.css",
+    "static/js/main.7c5d55da.js"
+  ]
+}
