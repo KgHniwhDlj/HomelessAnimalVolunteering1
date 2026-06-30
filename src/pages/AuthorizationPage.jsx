@@ -13,7 +13,7 @@ export default function AuthPage() {
           justifyContent: 'center',
         }}
       >
-        <h1>Авторизация в системе ZooManager</h1>
+        <h1>Авторизация</h1>
       </header>
       <AuthorizationForm />
     </section>
