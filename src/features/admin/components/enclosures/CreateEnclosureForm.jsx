@@ -38,48 +38,53 @@ export default function CreateEnclosureForm({ onSuccess }) {
   };
 
   return (
-    <div id="enclosure-creation-form" style={{ margin: '10px 10px 10px 5px' }}>
+    <>
       <h3>Введите данные нового вольера</h3>
-      <input
-        type="text"
-        maxLength={200}
-        placeholder="Название"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-      />
-      <br />
-      <input
-        type="text"
-        maxLength={50}
-        placeholder="Размер"
-        value={size}
-        onChange={(e) => setSize(e.target.value)}
-      />
-      <br />
-      <input
-        type="date"
-        maxLength={13}
-        placeholder="Дата"
-        value={date}
-        onChange={(e) => setDate(e.target.value)}
-      />
-      <br />
-      <input
-        type="text"
-        maxLength={200}
-        placeholder="Адрес"
-        value={address}
-        onChange={(e) => setAddress(e.target.value)}
-      />
-      <br />
-      <button
-        id="submit-enclosure-btn"
-        onClick={createNewEnclosure}
-        style={{ margin: '5px 5px 5px 0' }}
+      <div
+        id="enclosure-creation-form"
+        style={{ margin: '10px 10px 10px 5px', display: 'flex', }}
       >
-        Добавить вольер
-      </button>
-    </div>
+        <input
+          type="text"
+          maxLength={200}
+          placeholder="Название"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+        <br />
+        <input
+          type="text"
+          maxLength={50}
+          placeholder="Размер"
+          value={size}
+          onChange={(e) => setSize(e.target.value)}
+        />
+        <br />
+        <input
+          type="date"
+          maxLength={13}
+          placeholder="Дата"
+          value={date}
+          onChange={(e) => setDate(e.target.value)}
+        />
+        <br />
+        <input
+          type="text"
+          maxLength={200}
+          placeholder="Адрес"
+          value={address}
+          onChange={(e) => setAddress(e.target.value)}
+        />
+        <br />
+        <button
+          id="submit-enclosure-btn"
+          onClick={createNewEnclosure}
+          style={{ margin: '5px 5px 5px 0' }}
+        >
+          Добавить вольер
+        </button>
+      </div>
+    </>
   );
 }
 

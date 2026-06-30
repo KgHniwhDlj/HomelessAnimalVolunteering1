@@ -88,43 +88,49 @@ export default function EditEnclosureForm({ onEditSuccess }) {
       </button>
 
       {isFormVisible && (
-        <div id="enclosure-editing-form" style={{ marginTop: '10px' }}>
-          <input
-            type="text"
-            placeholder="ФИО"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-          <br />
-          <input
-            type="text"
-            placeholder="Размер"
-            value={size}
-            onChange={(e) => setSize(e.target.value)}
-          />
-          <br />
-          <input
-            type="date"
-            placeholder="Дата"
-            value={date}
-            onChange={(e) => setDate(e.target.value)}
-          />
-          <br />
-          <input
-            type="text"
-            placeholder="Адрес"
-            value={address}
-            onChange={(e) => setAddress(e.target.value)}
-          />
-          <br />
-          <button
-            id="save-enclosure-changes-btn"
-            onClick={saveEnclosureChanges}
-            style={{ marginTop: '5px' }}
+        <>
+          <h3>Введите новые данные о вольере</h3>
+          <div
+            id="enclosure-editing-form"
+            style={{ marginTop: '10px', display: 'flex' }}
           >
-            Сохранить изменения
-          </button>
-        </div>
+            <input
+              type="text"
+              placeholder="ФИО"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+            <br />
+            <input
+              type="text"
+              placeholder="Размер"
+              value={size}
+              onChange={(e) => setSize(e.target.value)}
+            />
+            <br />
+            <input
+              type="date"
+              placeholder="Дата"
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
+            />
+            <br />
+            <input
+              type="text"
+              placeholder="Адрес"
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+            />
+            <br />
+            <button
+              id="save-enclosure-changes-btn"
+              onClick={saveEnclosureChanges}
+              style={{ marginTop: '5px' }}
+            >
+              Сохранить изменения
+            </button>
+          </div>
+        </>
       )}
     </div>
   );

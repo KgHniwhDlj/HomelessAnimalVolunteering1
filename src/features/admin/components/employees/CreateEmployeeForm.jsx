@@ -92,55 +92,60 @@ export default function CreateEmployeeForm({ onSuccess }) {
   };
 
   return (
-    <div id="employee-creation-form" style={{ margin: '10px 10px 10px 5px' }}>
+    <>
       <h3>Введите данные нового сотрудника</h3>
-      <input
-        type="text"
-        maxLength={200}
-        placeholder="ФИО"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-      />
-      <br />
-      <input
-        type="text"
-        maxLength={50}
-        placeholder="электронная почта"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <br />
-      <input
-        type="text"
-        maxLength={13}
-        placeholder="телефон"
-        value={phone}
-        onChange={(e) => setPhone(e.target.value)}
-      />
-      <br />
-      <input
-        type="text"
-        maxLength={200}
-        placeholder="адрес"
-        value={address}
-        onChange={(e) => setAddress(e.target.value)}
-      />
-      <br />
-      <input
-        type="text"
-        maxLength={20}
-        placeholder="пароль"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <br />
-      <button
-        id="submit-employee-btn"
-        onClick={createNewEmployee}
-        style={{ margin: '5px 5px 5px 0' }}
+      <div
+        id="employee-creation-form"
+        style={{ margin: '10px 10px 10px 5px', display: 'flex' }}
       >
-        Добавить работника
-      </button>
-    </div>
+        <input
+          type="text"
+          maxLength={200}
+          placeholder="ФИО"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+        <br />
+        <input
+          type="text"
+          maxLength={50}
+          placeholder="электронная почта"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <br />
+        <input
+          type="text"
+          maxLength={13}
+          placeholder="телефон"
+          value={phone}
+          onChange={(e) => setPhone(e.target.value)}
+        />
+        <br />
+        <input
+          type="text"
+          maxLength={200}
+          placeholder="адрес"
+          value={address}
+          onChange={(e) => setAddress(e.target.value)}
+        />
+        <br />
+        <input
+          type="text"
+          maxLength={20}
+          placeholder="пароль"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <br />
+        <button
+          id="submit-employee-btn"
+          onClick={createNewEmployee}
+          style={{ margin: '5px 5px 5px 0' }}
+        >
+          Добавить работника
+        </button>
+      </div>
+    </>
   );
 }
