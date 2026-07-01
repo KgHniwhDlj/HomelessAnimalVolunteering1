@@ -23,12 +23,12 @@ function UserRoute() {
 
 export default function App() {
     return (
-        <BrowserRouter>
-            <Routes>
-                <Route path="/" element={<AuthorizationPage />} />
-                <Route path="/admin" element={<AdminRoute />} />
-                <Route path="/user" element={<UserRoute />} />
-            </Routes>
-        </BrowserRouter>
+      <BrowserRouter basename="/HomelessAnimalVolunteering1">
+        <Routes>
+          <Route path="/" element={<AuthorizationPage />} />
+          <Route path="/admin" element={<AdminRoute />} />
+          <Route path="/user" element={<UserRoute />} />
+        </Routes>
+      </BrowserRouter>
     );
 }
