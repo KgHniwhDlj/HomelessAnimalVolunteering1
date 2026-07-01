@@ -2,6 +2,7 @@ import { useState } from 'react';
 import BasicSelect from '../../../components/MuiSelect';
 import { useEnclosures } from '../../../hooks/UseEnclosures';
 import SimplePetTable from './SimplePetTable';
+import { TextField } from '@mui/material';
 
 export default function EditPetManager({ onPetsUpdated }) {
   const [searchId, setSearchId] = useState('');
@@ -166,20 +167,21 @@ export default function EditPetManager({ onPetsUpdated }) {
       className="pet-container"
       style={{ margin: '10px 10px 10px 5px' }}
     >
-      <label>
-        Введите ID животного, чьи данные хотите отредактировать: <br />
-        <input
-          type="text"
-          placeholder="ID животного"
+      <h3>Введите ID животного, чьи данные хотите отредактировать:</h3>
+      <div style={{ display: 'flex' }}>
+        <TextField
+          label="ID животного"
           value={searchId}
           onChange={(e) => setSearchId(e.target.value)}
-          style={{ marginRight: '5px', padding: '4px' }}
+          style={{
+            padding: '5px',
+          }}
+          variant="standard"
         />
-      </label>
-      <button id="find-pet-by-id-btn" onClick={handleFindById}>
-        Найти
-      </button>
-
+        <button id="find-pet-by-id-btn" onClick={handleFindById}>
+          Найти
+        </button>
+      </div>
       {foundPet && (
         <>
           <div style={{ marginTop: '15px' }}>
@@ -304,38 +306,33 @@ export default function EditPetManager({ onPetsUpdated }) {
               style={{ marginTop: '10px' }}
             >
               <label>
-                {' '}
                 Укажите новое имя для животного <br />
-                <input
-                  type="text"
-                  placeholder="Кличка"
+                <TextField
+                  label="Кличка"
                   value={newName}
                   onChange={(e) => setNewName(e.target.value)}
                   style={{
-                    margin: '0 5px 5px 0',
-                    width: '250px',
-                    boxSizing: 'border-box',
-                  }}
-                />{' '}
-                <br />
-              </label>
-              <label>
-                {' '}
-                Введите новое описание животного <br />
-                <textarea
-                  placeholder="Введите описание"
-                  value={newDescription}
-                  onChange={(e) => setNewDescription(e.target.value)}
-                  style={{
-                    width: '250px',
-                    height: '60px',
-                    fontFamily: 'inherit',
-                    boxSizing: 'border-box',
+                    marginTop: '10px',
                     marginBottom: '5px',
                   }}
-                ></textarea>{' '}
+                />
                 <br />
               </label>
+              <label>Новое описание животного</label> <br />
+
+              <TextField
+                label="Описание"
+                placeholder="Описание"
+                value={newDescription}
+                onChange={(e) => setNewDescription(e.target.value)}
+                multiline
+                rows={4}
+                style={{
+                  marginTop: '10px',
+                  marginBottom: '5px',
+                }}
+              />
+              <br />
               <button onClick={handleChangeData}>Сохранить изменения</button>
             </div>
           )}

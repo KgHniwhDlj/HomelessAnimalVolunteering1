@@ -1,6 +1,7 @@
 import BasicSelect from '../../../components/MuiSelect';
 import { useState } from 'react';
 import { useEnclosures } from '../../../hooks/UseEnclosures';
+import { TextField } from '@mui/material';
 
 export default function CreatePetForm({ onSuccess }) {
   const [name, setName] = useState('');
@@ -112,10 +113,8 @@ export default function CreatePetForm({ onSuccess }) {
     <div id="create-new-pet-form" style={{ margin: '10px 10px 10px 5px' }}>
       <h3>Введите данные нового питомца</h3>
 
-      <input
-        type="text"
-        placeholder="Кличка"
-        style={fieldStyle}
+      <TextField
+        label="Кличка"
         value={name}
         onChange={(e) => setName(e.target.value)}
       />
@@ -144,18 +143,21 @@ export default function CreatePetForm({ onSuccess }) {
         onChange={(e) => setStatus(e.target.value)}
       />
 
-      <br />
-
-      <textarea
+      <TextField
+        label="Описание"
         placeholder="Описание"
-        style={{ ...fieldStyle, height: '60px', fontFamily: 'inherit' }}
         value={description}
         onChange={(e) => setDescription(e.target.value)}
+        multiline
+        rows={4}
+        style={{
+          marginTop: '8px',
+        }}
       />
       <br />
 
       <button onClick={createNewAnimal} style={{ margin: '5px 5px 5px 0' }}>
-        Добавить питомца
+        Зарегистрировать животное
       </button>
     </div>
   );
