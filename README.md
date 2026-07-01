@@ -30,3 +30,4 @@
 
 ## 👥 Данные для тестового входа
 * **Администратор**: `admin@example.com` / Пароль: `admin123`
+* https://kghniwhdlj.github.io/HomelessAnimalVolunteering1/
