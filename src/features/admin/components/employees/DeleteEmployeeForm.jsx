@@ -1,14 +1,27 @@
 import { useState } from 'react';
 import SimpleEmployeeTable from './SimpleEmployeeTable';
+import { TextField, Button, Alert, Box, Typography } from '@mui/material';
+import CheckIcon from '@mui/icons-material/Check';
 
 export default function DeleteEmployeeForm({ onDeleteSuccess }) {
   const [targetId, setTargetId] = useState('');
   const [foundEmployee, setFoundEmployee] = useState(null);
   const [isInfoVisible, setIsInfoVisible] = useState(false);
 
+  const [notification, setNotification] = useState(null);
+  const [errorText, setErrorText] = useState('');
+
   const findEmployeeToDelete = () => {
+
+    setNotification(null);
+    setErrorText('');
+
     if (!targetId.trim()) {
-      alert('Пожалуйста, введите ID сотрудника!');
+      setErrorText('Пожалуйста, введите ID сотрудника!');
+      setNotification({
+        text: 'Поле ID не может быть пустым',
+        severity: 'error',
+      });
       return;
     }
 
@@ -19,7 +32,11 @@ export default function DeleteEmployeeForm({ onDeleteSuccess }) {
     );
 
     if (!employee) {
-      alert('Сотрудник с таким ID не найден!');
+      setErrorText('Сотрудник не найден');
+      setNotification({
+        text: 'Сотрудник с таким ID не найден!',
+        severity: 'error',
+      });
       setIsInfoVisible(false);
       setFoundEmployee(null);
       return;
@@ -39,42 +56,76 @@ export default function DeleteEmployeeForm({ onDeleteSuccess }) {
     );
 
     localStorage.setItem('employees', JSON.stringify(updatedEmployees));
-    alert('Сотрудник успешно удален!');
+
+    setNotification({ text: 'Сотрудник успешно удален!', severity: 'success' });
 
     setIsInfoVisible(false);
     setFoundEmployee(null);
     setTargetId('');
+    setErrorText('');
 
     if (onDeleteSuccess) onDeleteSuccess();
   };
 
   return (
-    <div id="employee-deletion">
-      <h3>Введите ID сотрудника для его удаления</h3>
-      <input
-        type="text"
-        style={{ margin: '2px 2px 2px 5px' }}
-        placeholder="ID сотрудника"
-        value={targetId}
-        onChange={(e) => setTargetId(e.target.value)}
-      />
-      <button id="deletion-employee-found-btn" onClick={findEmployeeToDelete}>
-        Найти
-      </button>
+    <>
+      <Box sx={{ p: 2, maxWidth: 500 }}>
+        <Typography variant="h6" gutterBottom>
+          Введите ID сотрудника для его удаления
+        </Typography>
 
-      {isInfoVisible && foundEmployee && (
-        <div className="employee-container-info" id="employee-deletion-info">
-          <SimpleEmployeeTable employees={[foundEmployee]} />
-
-          <button
-            id="deletion-employee-btn"
-            onClick={confirmEmployeeDeletion}
-            style={{ marginTop: '10px' }}
+        {notification && (
+          <Alert
+            severity={notification.severity}
+            icon={
+              notification.severity === 'success' ? (
+                <CheckIcon fontSize="inherit" />
+              ) : undefined
+            }
+            sx={{ mb: 2 }}
           >
-            Удалить
-          </button>
-        </div>
+            {notification.text}
+          </Alert>
+        )}
+
+        <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 1, mb: 3 }}>
+          <TextField
+            label="ID Сотрудника"
+            value={targetId}
+            onChange={(e) => setTargetId(e.target.value)}
+            error={!!errorText}
+            helperText={errorText}
+            variant="standard"
+            fullWidth
+          />
+          <Button
+            variant="contained"
+            onClick={findEmployeeToDelete}
+            sx={{ mt: 1 }}
+          >
+            Найти
+          </Button>
+        </Box>
+      </Box>
+      {isInfoVisible && foundEmployee && (
+        <>
+          <Box
+            className="employee-container-info"
+            id="employee-deletion-info"
+            sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
+          >
+            <SimpleEmployeeTable employees={[foundEmployee]} />
+
+            <Button
+              variant="contained"
+              color="error"
+              onClick={confirmEmployeeDeletion}
+            >
+              Удалить
+            </Button>
+          </Box>
+        </>
       )}
-    </div>
+    </>
   );
 }

@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { TextField, Button, Alert, Box, Typography } from '@mui/material';
+import CheckIcon from '@mui/icons-material/Check';
 
 export default function EditEnclosureForm({ onEditSuccess }) {
   const [targetId, setTargetId] = useState('');
@@ -9,9 +11,19 @@ export default function EditEnclosureForm({ onEditSuccess }) {
   const [date, setDate] = useState('');
   const [address, setAddress] = useState('');
 
+  const [notification, setNotification] = useState(null);
+  const [errors, setErrors] = useState({});
+
   const findEnclosureToEdit = () => {
+    setNotification(null);
+    setErrors({});
+
     if (!targetId.trim()) {
-      alert('Пожалуйста, введите ID вольера!');
+      setErrors({ targetId: 'Пожалуйста, введите ID вольера!' });
+      setNotification({
+        text: 'Поле ID не может быть пустым',
+        severity: 'error',
+      });
       return;
     }
 
@@ -23,7 +35,11 @@ export default function EditEnclosureForm({ onEditSuccess }) {
     );
 
     if (!enclosure) {
-      alert('Вольер с таким ID не найден!');
+      setErrors({ targetId: 'Вольер не найден' });
+      setNotification({
+        text: 'Вольер с таким ID не найден!',
+        severity: 'error',
+      });
       setIsFormVisible(false);
       return;
     }
@@ -37,8 +53,20 @@ export default function EditEnclosureForm({ onEditSuccess }) {
   };
 
   const saveEnclosureChanges = () => {
-    if (!name.trim() || !size.trim() || !date.trim() || !address.trim()) {
-      alert('Пожалуйста, заполните все поля');
+    setNotification(null);
+    const newErrors = {};
+
+    if (!name.trim()) newErrors.name = 'Пожалуйста, заполните название';
+    if (!size.trim()) newErrors.size = 'Пожалуйста, укажите размер';
+    if (!date.trim()) newErrors.date = 'Пожалуйста, выберите дату';
+    if (!address.trim()) newErrors.address = 'Пожалуйста, укажите адрес';
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      setNotification({
+        text: 'Пожалуйста, заполните все обязательные поля',
+        severity: 'error',
+      });
       return;
     }
 
@@ -61,8 +89,12 @@ export default function EditEnclosureForm({ onEditSuccess }) {
     });
 
     localStorage.setItem('enclosures', JSON.stringify(updatedEnclosures));
-    alert('Данные вольера успешно изменены!');
 
+    setNotification({
+      text: 'Данные вольера успешно изменены!',
+      severity: 'success',
+    });
+    setErrors({});
     setIsFormVisible(false);
     setTargetId('');
 
@@ -70,68 +102,103 @@ export default function EditEnclosureForm({ onEditSuccess }) {
   };
 
   return (
-    <div id="enclosure-editing" style={{ margin: '10px 10px 10px 5px' }}>
-      <h3>Введите ID вольера, чьи данные хотите отредактировать</h3>
-      <input
-        type="text"
-        placeholder="Введите ID"
-        style={{ width: '150px', marginBottom: '10px', padding: '4px' }}
-        value={targetId}
-        onChange={(e) => setTargetId(e.target.value)}
-      />
-      <button
-        id="editing-enclosure-found-btn"
-        onClick={findEnclosureToEdit}
-        style={{ marginLeft: '5px' }}
-      >
-        Найти
-      </button>
+    <Box sx={{ p: 2, maxWidth: 500 }}>
+      <Typography variant="h6" gutterBottom>
+        Введите ID вольера, чьи данные хотите отредактировать
+      </Typography>
+
+      {notification && (
+        <Alert
+          severity={notification.severity}
+          icon={
+            notification.severity === 'success' ? (
+              <CheckIcon fontSize="inherit" />
+            ) : undefined
+          }
+          sx={{ mb: 2 }}
+        >
+          {notification.text}
+        </Alert>
+      )}
+
+      <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 1, mb: 3 }}>
+        <TextField
+          label="ID Вольера"
+          value={targetId}
+          onChange={(e) => setTargetId(e.target.value)}
+          error={!!errors.targetId}
+          helperText={errors.targetId}
+          variant="standard"
+          fullWidth
+        />
+        <Button
+          variant="contained"
+          onClick={findEnclosureToEdit}
+          sx={{ mt: 1 }}
+        >
+          Найти
+        </Button>
+      </Box>
 
       {isFormVisible && (
-        <>
-          <h3>Введите новые данные о вольере</h3>
-          <div
-            id="enclosure-editing-form"
-            style={{ marginTop: '10px', display: 'flex' }}
+        <Box sx={{ mt: 2 }}>
+          <Typography variant="h6" gutterBottom sx={{ mb: 2 }}>
+            Введите новые данные о вольере
+          </Typography>
+
+          <Box
+            component="form"
+            sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
           >
-            <input
-              type="text"
-              placeholder="ФИО"
+            <TextField
+              label="Название"
               value={name}
               onChange={(e) => setName(e.target.value)}
+              error={!!errors.name}
+              helperText={errors.name}
+              fullWidth
             />
-            <br />
-            <input
-              type="text"
-              placeholder="Размер"
+
+            <TextField
+              label="Размер"
               value={size}
               onChange={(e) => setSize(e.target.value)}
+              error={!!errors.size}
+              helperText={errors.size}
+              fullWidth
             />
-            <br />
-            <input
+
+            <TextField
               type="date"
-              placeholder="Дата"
+              label="Дата"
               value={date}
               onChange={(e) => setDate(e.target.value)}
+              error={!!errors.date}
+              helperText={errors.date}
+              InputLabelProps={{ shrink: true }}
+              fullWidth
             />
-            <br />
-            <input
-              type="text"
-              placeholder="Адрес"
+
+            <TextField
+              label="Адрес"
               value={address}
               onChange={(e) => setAddress(e.target.value)}
+              error={!!errors.address}
+              helperText={errors.address}
+              fullWidth
             />
-            <br />
-            <button
-              id="save-enclosure-changes-btn"
+
+            <Button
+              variant="contained"
+              color="primary"
               onClick={saveEnclosureChanges}
-              style={{ marginTop: '5px' }}
+              sx={{ mt: 1 }}
             >
               Сохранить изменения
-            </button>
-          </div>
-        </>
+            </Button>
+          </Box>
+        </Box>
       )}
-    </div>
+    </Box>
   );
 }

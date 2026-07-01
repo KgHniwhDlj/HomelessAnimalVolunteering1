@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import SimpleEnclosureTable from './SimpleEnclosureTable';
+import { Box, Button, TextField, Typography } from '@mui/material';
 
 export default function EnclosureManager() {
     const [allEnclosures, setAllEnclosures] = useState([]);
@@ -24,23 +25,30 @@ export default function EnclosureManager() {
     });
 
     return (
-        <div>
-            <h3>Поиск вольеров</h3>
-            <div style={{ marginBottom: '15px' }}>
-                <input
-                    type="text"
-                    placeholder="Поиск по ID, названию, размеру или дате..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    style={{ width: '300px', padding: '5px' }}
-                />
-                {searchQuery && (
-                    <button onClick={() => setSearchQuery('')} style={{ marginLeft: '5px' }}>
-                        Очистить
-                    </button>
-                )}
-            </div>
-            <SimpleEnclosureTable enclosures={filteredEnclosures} />
-        </div>
+      <Box>
+        <Typography variant="h6" gutterBottom>
+          Поиск сотрудников
+        </Typography>
+
+        <Box sx={{ mb: '15px' }}>
+          <TextField
+            label="ID, название, размер или дата..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            style={{
+              padding: '5px',
+            }}
+            variant="standard"
+          />
+          {searchQuery && (
+            <Button variant="contained" onClick={() => setSearchQuery('')}>
+          Очистить
+          </Button>
+          )}
+
+        </Box>
+        <SimpleEnclosureTable enclosures={filteredEnclosures} />
+
+      </Box>
     );
 }

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import SimpleEmployeeTable from './SimpleEmployeeTable';
+import { Box, Button, TextField, Typography } from '@mui/material';
 
 
 
@@ -31,23 +32,28 @@ export default function EmployeeManager() {
   });
 
   return (
-      <div>
-        <h3>Поиск сотрудников</h3>
-        <div style={{ marginBottom: '15px' }}>
-          <input
-              type="text"
-              placeholder="Поиск по ID, имени, почте или телефону..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              style={{ width: '300px', padding: '5px' }}
-          />
-          {searchQuery && (
-              <button onClick={() => setSearchQuery('')} style={{ marginLeft: '5px' }}>
-                Очистить
-              </button>
-          )}
-        </div>
-        <SimpleEmployeeTable employees={filteredEmployees} />
-      </div>
+    <Box>
+      <Typography variant="h6" gutterBottom>
+        Поиск сотрудников
+      </Typography>
+
+      <Box sx={{ mb: '15px' }}>
+        <TextField
+          label="ID, имя, почта или телефон..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          sx={{ p: '5px' }}
+          variant="standard"
+        />
+
+        {searchQuery && (
+          <Button variant="contained" onClick={() => setSearchQuery('')}>
+            Очистить
+          </Button>
+        )}
+      </Box>
+
+      <SimpleEmployeeTable employees={filteredEmployees} />
+    </Box>
   );
 }

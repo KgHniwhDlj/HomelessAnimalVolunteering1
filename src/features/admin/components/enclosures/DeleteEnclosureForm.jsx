@@ -1,14 +1,26 @@
-import SimpleEnclosureTable from './SimpleEnclosureTable';
 import { useState } from 'react';
+import SimpleEnclosureTable from './SimpleEnclosureTable';
+import { TextField, Button, Alert, Box, Typography } from '@mui/material';
+import CheckIcon from '@mui/icons-material/Check';
 
 export default function DeleteEnclosureForm({ onDeleteSuccess }) {
   const [targetId, setTargetId] = useState('');
   const [foundEnclosure, setFoundEnclosure] = useState(null);
   const [isInfoVisible, setIsInfoVisible] = useState(false);
 
+  const [notification, setNotification] = useState(null);
+  const [errorText, setErrorText] = useState('');
+
   const findEnclosureToDelete = () => {
+    setNotification(null);
+    setErrorText('');
+
     if (!targetId.trim()) {
-      alert('Пожалуйста, введите ID вольера!');
+      setErrorText('Пожалуйста, введите ID вольера!');
+      setNotification({
+        text: 'Поле ID не может быть пустым',
+        severity: 'error',
+      });
       return;
     }
 
@@ -19,7 +31,11 @@ export default function DeleteEnclosureForm({ onDeleteSuccess }) {
     );
 
     if (!enclosure) {
-      alert('Вольер с таким ID не найден!');
+      setErrorText('Вольер не найден');
+      setNotification({
+        text: 'Вольер с таким ID не найден!',
+        severity: 'error',
+      });
       setIsInfoVisible(false);
       setFoundEnclosure(null);
       return;
@@ -39,42 +55,73 @@ export default function DeleteEnclosureForm({ onDeleteSuccess }) {
     );
 
     localStorage.setItem('enclosures', JSON.stringify(updatedEnclosures));
-    alert('Вольер успешно удален!');
+
+    setNotification({ text: 'Вольер успешно удален!', severity: 'success' });
 
     setIsInfoVisible(false);
     setFoundEnclosure(null);
     setTargetId('');
+    setErrorText('');
 
     if (onDeleteSuccess) onDeleteSuccess();
   };
 
   return (
-    <div id="enclosure-deletion">
-      <h3>Введите ID вольера для его удаления</h3>
-      <input
-        type="text"
-        style={{ margin: '2px 2px 2px 5px' }}
-        placeholder="ID вольера"
-        value={targetId}
-        onChange={(e) => setTargetId(e.target.value)}
-      />
-      <button id="deletion-enclosure-found-btn" onClick={findEnclosureToDelete}>
-        Найти
-      </button>
+    <Box sx={{ p: 2, maxWidth: 500 }}>
+      <Typography variant="h6" gutterBottom>
+        Введите ID вольера для его удаления
+      </Typography>
+
+      {notification && (
+        <Alert
+          severity={notification.severity}
+          icon={
+            notification.severity === 'success' ? (
+              <CheckIcon fontSize="inherit" />
+            ) : undefined
+          }
+          sx={{ mb: 2 }}
+        >
+          {notification.text}
+        </Alert>
+      )}
+
+      <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 1, mb: 3 }}>
+        <TextField
+          label="ID Вольера"
+          value={targetId}
+          onChange={(e) => setTargetId(e.target.value)}
+          error={!!errorText}
+          helperText={errorText}
+          variant="standard"
+          fullWidth
+        />
+        <Button
+          variant="contained"
+          onClick={findEnclosureToDelete}
+          sx={{ mt: 1 }}
+        >
+          Найти
+        </Button>
+      </Box>
 
       {isInfoVisible && foundEnclosure && (
-        <div className="enclosure-container-info" id="enclosure-deletion-info">
+        <Box
+          className="enclosure-container-info"
+          id="enclosure-deletion-info"
+          sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
+        >
           <SimpleEnclosureTable enclosures={[foundEnclosure]} />
 
-          <button
-            id="deletion-enclosure-btn"
+          <Button
+            variant="contained"
+            color="error"
             onClick={confirmEnclosureDeletion}
-            style={{ marginTop: '10px' }}
           >
             Удалить
-          </button>
-        </div>
+          </Button>
+        </Box>
       )}
-    </div>
+    </Box>
   );
 }

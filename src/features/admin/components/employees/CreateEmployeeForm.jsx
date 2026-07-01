@@ -1,4 +1,7 @@
 import { useState } from 'react';
+import { Alert, Box, Button, TextField, Typography } from '@mui/material';
+import CheckIcon from '@mui/icons-material/Check';
+
 
 export default function CreateEmployeeForm({ onSuccess }) {
   const [name, setName] = useState('');
@@ -7,43 +10,54 @@ export default function CreateEmployeeForm({ onSuccess }) {
   const [address, setAddress] = useState('');
   const [password, setPassword] = useState('');
 
+  const [notification, setNotification] = useState(null);
+  const [errors, setErrors] = useState({});
+
   const createNewEmployee = () => {
-    if (
-      !name.trim() ||
-      !email.trim() ||
-      !phone.trim() ||
-      !address.trim() ||
-      !password.trim()
-    ) {
-      alert('Пожалуйста, заполните все поля');
+    setNotification(null);
+    const newErrors = {};
+
+    if (!name.trim()) newErrors.name = 'Пожалуйста, заполните ФИО';
+    if (!email.trim()) newErrors.email = 'Пожалуйста, заполните Email';
+    if (!phone.trim()) newErrors.phone = 'Пожалуйста, заполните телефон';
+    if (!address.trim()) newErrors.address = 'Пожалуйста, заполните адрес';
+    if (!password.trim()) newErrors.password = 'Пожалуйста, заполните пароль';
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      setNotification({
+        text: 'Пожалуйста, заполните все обязательные поля',
+        severity: 'error',
+      });
       return;
     }
+
     if (password.length < 8) {
-      alert('Пароль слишком короткий!');
-      return;
+      newErrors.password = 'Пароль слишком короткий (минимум 8 символов)!';
     }
     if (!email.includes('@')) {
-      alert('Неверный формат электронной почты!');
-      return;
-    }
-    if (email.trim() === 'admin@example.com') {
-      alert('Нельзя!');
-      return;
+      newErrors.email = 'Неверный формат электронной почты!';
+    } else if (email.trim() === 'admin@example.com') {
+      newErrors.email = 'Регистрация этого email запрещена!';
     }
 
     const phonePattern = /^\+[0-9]{7,15}$/;
     if (!phonePattern.test(phone.trim())) {
-      alert(
-        "Неверный формат телефона! Номер должен начинаться с '+' и содержать только цифры.",
-      );
-      return;
+      newErrors.phone =
+        "Номер должен начинаться с '+' и содержать от 7 до 15 цифр.";
     }
 
     const nameParts = name.trim().split(/\s+/);
     if (nameParts.length !== 3) {
-      alert(
-        'Имя неверно указано. Введите Фамилию, Имя и Отчество через пробел.',
-      );
+      newErrors.name = 'Введите Фамилию, Имя и Отчество через пробел.';
+    }
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      setNotification({
+        text: 'Проверьте правильность заполнения полей',
+        severity: 'error',
+      });
       return;
     }
 
@@ -54,15 +68,22 @@ export default function CreateEmployeeForm({ onSuccess }) {
       (emp) => emp.phone === phone.trim(),
     );
     if (isPhoneExists) {
-      alert('Сотрудник с таким номером телефона существует!');
-      return;
+      newErrors.phone = 'Сотрудник с таким номером телефона существует!';
     }
 
     const isEmailExists = currentEmployees.some(
       (emp) => emp.email.toLowerCase() === email.trim().toLowerCase(),
     );
     if (isEmailExists) {
-      alert('Эта электронная почта занята!');
+      newErrors.email = 'Эта электронная почта занята!';
+    }
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      setNotification({
+        text: 'Данные сотрудника уже зарегистрированы',
+        severity: 'error',
+      });
       return;
     }
 
@@ -80,7 +101,11 @@ export default function CreateEmployeeForm({ onSuccess }) {
     const updatedEmployees = [...currentEmployees, newEmployeeData];
     localStorage.setItem('employees', JSON.stringify(updatedEmployees));
 
-    alert('Сотрудник успешно добавлен!');
+    setNotification({
+      text: 'Сотрудник успешно добавлен!',
+      severity: 'success',
+    });
+    setErrors({});
 
     setName('');
     setEmail('');
@@ -92,60 +117,85 @@ export default function CreateEmployeeForm({ onSuccess }) {
   };
 
   return (
-    <>
-      <h3>Введите данные нового сотрудника</h3>
-      <div
-        id="employee-creation-form"
-        style={{ margin: '10px 10px 10px 5px', display: 'flex' }}
+    <Box sx={{ p: 2, maxWidth: 400 }}>
+      <Typography variant="h6" gutterBottom>
+        Введите данные нового сотрудника
+      </Typography>
+
+
+      {notification && (
+        <Alert
+          severity={notification.severity}
+          icon={
+            notification.severity === 'success' ? (
+              <CheckIcon fontSize="inherit" />
+            ) : undefined
+          }
+          sx={{ mb: 2 }}
+        >
+          {notification.text}
+        </Alert>
+      )}
+
+      <Box
+        component="form"
+        sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
       >
-        <input
-          type="text"
-          maxLength={200}
-          placeholder="ФИО"
+        <TextField
+          label="ФИО"
           value={name}
           onChange={(e) => setName(e.target.value)}
+          error={!!errors.name}
+          helperText={errors.name}
+          fullWidth
         />
-        <br />
-        <input
-          type="text"
-          maxLength={50}
-          placeholder="электронная почта"
+
+        <TextField
+          label="Электронная почта"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          error={!!errors.email}
+          helperText={errors.email}
+          fullWidth
         />
-        <br />
-        <input
-          type="text"
-          maxLength={13}
-          placeholder="телефон"
+
+        <TextField
+          label="Телефон"
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
+          error={!!errors.phone}
+          helperText={errors.phone}
+          fullWidth
         />
-        <br />
-        <input
-          type="text"
-          maxLength={200}
-          placeholder="адрес"
+
+        <TextField
+          label="Адрес"
           value={address}
           onChange={(e) => setAddress(e.target.value)}
+          error={!!errors.address}
+          helperText={errors.address}
+          fullWidth
         />
-        <br />
-        <input
-          type="text"
-          maxLength={20}
-          placeholder="пароль"
+
+        <TextField
+          label="Пароль"
+          type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          error={!!errors.password}
+          helperText={errors.password}
+          fullWidth
         />
-        <br />
-        <button
-          id="submit-employee-btn"
+
+        <Button
+          variant="contained"
+          color="primary"
           onClick={createNewEmployee}
-          style={{ margin: '5px 5px 5px 0' }}
+          sx={{ mt: 1 }}
         >
           Добавить работника
-        </button>
-      </div>
-    </>
+        </Button>
+      </Box>
+    </Box>
   );
 }

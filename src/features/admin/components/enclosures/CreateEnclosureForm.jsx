@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { TextField, Button, Alert, Box, Typography } from '@mui/material';
+import CheckIcon from '@mui/icons-material/Check';
 
 export default function CreateEnclosureForm({ onSuccess }) {
   const [name, setName] = useState('');
@@ -6,9 +8,24 @@ export default function CreateEnclosureForm({ onSuccess }) {
   const [date, setDate] = useState('');
   const [address, setAddress] = useState('');
 
+  const [notification, setNotification] = useState(null);
+  const [errors, setErrors] = useState({});
+
   const createNewEnclosure = () => {
-    if (!name.trim() || !size.trim() || !date.trim() || !address.trim()) {
-      alert('Пожалуйста, заполните все поля');
+    setNotification(null);
+    const newErrors = {};
+
+    if (!name.trim()) newErrors.name = 'Пожалуйста, заполните название';
+    if (!size.trim()) newErrors.size = 'Пожалуйста, укажите размер';
+    if (!date.trim()) newErrors.date = 'Пожалуйста, выберите дату';
+    if (!address.trim()) newErrors.address = 'Пожалуйста, укажите адрес';
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      setNotification({
+        text: 'Пожалуйста, заполните все обязательные поля',
+        severity: 'error',
+      });
       return;
     }
 
@@ -27,7 +44,8 @@ export default function CreateEnclosureForm({ onSuccess }) {
     const updatedEnclosures = [...currentEnclosures, newEnclosureData];
     localStorage.setItem('enclosures', JSON.stringify(updatedEnclosures));
 
-    alert('Вольер успешно добавлен!');
+    setNotification({ text: 'Вольер успешно добавлен!', severity: 'success' });
+    setErrors({});
 
     setName('');
     setSize('');
@@ -38,55 +56,76 @@ export default function CreateEnclosureForm({ onSuccess }) {
   };
 
   return (
-    <>
-      <h3>Введите данные нового вольера</h3>
-      <div
-        id="enclosure-creation-form"
-        style={{ margin: '10px 10px 10px 5px', display: 'flex', }}
+    <Box sx={{ p: 2, maxWidth: 400 }}>
+      <Typography variant="h6" gutterBottom>
+        Введите данные нового вольера
+      </Typography>
+
+      {notification && (
+        <Alert
+          severity={notification.severity}
+          icon={
+            notification.severity === 'success' ? (
+              <CheckIcon fontSize="inherit" />
+            ) : undefined
+          }
+          sx={{ mb: 2 }}
+        >
+          {notification.text}
+        </Alert>
+      )}
+
+      <Box
+        component="form"
+        sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
       >
-        <input
-          type="text"
-          maxLength={200}
-          placeholder="Название"
+        <TextField
+          label="Название"
           value={name}
           onChange={(e) => setName(e.target.value)}
+          error={!!errors.name}
+          helperText={errors.name}
+          fullWidth
         />
-        <br />
-        <input
-          type="text"
-          maxLength={50}
-          placeholder="Размер"
+
+        <TextField
+          label="Размер"
           value={size}
           onChange={(e) => setSize(e.target.value)}
+          error={!!errors.size}
+          helperText={errors.size}
+          fullWidth
         />
-        <br />
-        <input
+
+        <TextField
           type="date"
-          maxLength={13}
-          placeholder="Дата"
+          label="Дата"
           value={date}
           onChange={(e) => setDate(e.target.value)}
+          error={!!errors.date}
+          helperText={errors.date}
+          InputLabelProps={{ shrink: true }}
+          fullWidth
         />
-        <br />
-        <input
-          type="text"
-          maxLength={200}
-          placeholder="Адрес"
+
+        <TextField
+          label="Адрес"
           value={address}
           onChange={(e) => setAddress(e.target.value)}
+          error={!!errors.address}
+          helperText={errors.address}
+          fullWidth
         />
-        <br />
-        <button
-          id="submit-enclosure-btn"
+
+        <Button
+          variant="contained"
+          color="primary"
           onClick={createNewEnclosure}
-          style={{ margin: '5px 5px 5px 0' }}
+          sx={{ mt: 1 }}
         >
           Добавить вольер
-        </button>
-      </div>
-    </>
+        </Button>
+      </Box>
+    </Box>
   );
 }
-
-
-

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Box, Button, TextField } from '@mui/material';
 
 export default function AuthorizationForm() {
   const [email, setEmail] = useState('');
@@ -42,59 +43,42 @@ export default function AuthorizationForm() {
   };
 
   return (
-    <>
-    <div
-      className="counter-interaction"
-      style={{
+    <Box
+      sx={{
+        p: 2,
+        maxWidth: 400,
+        width: '100%',
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'center',
+        gap: 2,
+        margin: '0 auto',
       }}
     >
-      <input
-        type="text"
-        placeholder="Электронная почта"
-        maxLength={50}
-        style={{
-          width: '300px',
-          height: '30px',
-          fontSize: '12pt',
-          border: '1px solid #3e332e',
-          marginBottom: '2px',
-          marginTop: '2px',
-          padding: '5px',
-        }}
-        required
+      <TextField
+        id="outlined-required"
+        label="Электронная почта"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
+        fullWidth
       />
-      <input
+
+      <TextField
+        id="outlined-password-input"
+        label="Пароль"
         type="password"
-        placeholder="Пароль"
-        maxLength={30}
-        style={{
-          width: '300px',
-          height: '30px',
-          fontSize: '12pt',
-          border: '1px solid #3e332e',
-          marginBottom: '2px',
-        }}
-        required
+        autoComplete="current-password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
+        fullWidth
       />
-    </div>
-    <div style={{ display: 'flex', justifyContent: 'center' }}>
-      <button
-        id="submit-btn"
-        className="auth-btn"
-        type="button"
-        style={{ width: '80px', fontSize: '12pt' }}
+
+      <Button
+        variant="contained"
         onClick={authenticate}
-        >
+        sx={{ mt: 1 }}
+      >
         Войти
-    </button>
-    </div>
-</>
-);
+      </Button>
+    </Box>
+  );
 }

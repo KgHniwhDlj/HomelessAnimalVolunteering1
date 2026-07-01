@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { TextField, Button, Alert, Box, Typography } from '@mui/material';
+import CheckIcon from '@mui/icons-material/Check';
 
 export default function EditEmployeeForm({ onEditSuccess }) {
   const [targetId, setTargetId] = useState('');
@@ -11,9 +13,19 @@ export default function EditEmployeeForm({ onEditSuccess }) {
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('employee');
 
+  const [notification, setNotification] = useState(null);
+  const [errors, setErrors] = useState({});
+
   const findEmployeeToEdit = () => {
+    setNotification(null);
+    setErrors({});
+
     if (!targetId.trim()) {
-      alert('Пожалуйста, введите ID сотрудника!');
+      setErrors({ targetId: 'Пожалуйста, введите ID сотрудника!' });
+      setNotification({
+        text: 'Поле ID не может быть пустым',
+        severity: 'error',
+      });
       return;
     }
 
@@ -25,7 +37,11 @@ export default function EditEmployeeForm({ onEditSuccess }) {
     );
 
     if (!employee) {
-      alert('Сотрудник с таким ID не найден!');
+      setErrors({ targetId: 'Сотрудник не найден' });
+      setNotification({
+        text: 'Сотрудник с таким ID не найден!',
+        severity: 'error',
+      });
       setIsFormVisible(false);
       return;
     }
@@ -41,14 +57,21 @@ export default function EditEmployeeForm({ onEditSuccess }) {
   };
 
   const saveEmployeeChanges = () => {
-    if (
-      !name.trim() ||
-      !email.trim() ||
-      !phone.trim() ||
-      !address.trim() ||
-      !password.trim()
-    ) {
-      alert('Пожалуйста, заполните все поля');
+    setNotification(null);
+    const newErrors = {};
+
+    if (!name.trim()) newErrors.name = 'Пожалуйста, заполните ФИО';
+    if (!email.trim()) newErrors.email = 'Пожалуйста, заполните Email';
+    if (!phone.trim()) newErrors.phone = 'Пожалуйста, заполните телефон';
+    if (!address.trim()) newErrors.address = 'Пожалуйста, заполните адрес';
+    if (!password.trim()) newErrors.password = 'Пожалуйста, заполните пароль';
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      setNotification({
+        text: 'Пожалуйста, заполните все обязательные поля',
+        severity: 'error',
+      });
       return;
     }
 
@@ -61,8 +84,8 @@ export default function EditEmployeeForm({ onEditSuccess }) {
       (emp) => emp.phone === phone.trim() && String(emp.id) !== targetId.trim(),
     );
     if (isPhoneBusy) {
-      alert('Этот номер телефона уже используется другим сотрудником!');
-      return;
+      newErrors.phone =
+        'Этот номер телефона уже используется другим сотрудником!';
     }
 
     const isEmailBusy = currentEmployees.some(
@@ -71,7 +94,15 @@ export default function EditEmployeeForm({ onEditSuccess }) {
         String(emp.id) !== targetId.trim(),
     );
     if (isEmailBusy) {
-      alert('Эта электронная почта уже занята другим сотрудником!');
+      newErrors.email = 'Эта электронная почта уже занята другим сотрудником!';
+    }
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      setNotification({
+        text: 'Данные пересекаются с другими сотрудниками',
+        severity: 'error',
+      });
       return;
     }
 
@@ -91,8 +122,12 @@ export default function EditEmployeeForm({ onEditSuccess }) {
     });
 
     localStorage.setItem('employees', JSON.stringify(updatedEmployees));
-    alert('Данные сотрудника успешно изменены!');
 
+    setNotification({
+      text: 'Данные сотрудника успешно изменены!',
+      severity: 'success',
+    });
+    setErrors({});
     setIsFormVisible(false);
     setTargetId('');
 
@@ -100,77 +135,106 @@ export default function EditEmployeeForm({ onEditSuccess }) {
   };
 
   return (
-    <>
-      <h3>Введите ID сотрудника, чьи данные хотите отредактировать</h3>
-      <div id="employee-editing" style={{ margin: '10px 10px 10px 5px' }}>
-        <input
-          type="text"
-          placeholder="Введите ID"
-          style={{ width: '150px', marginBottom: '10px', padding: '4px' }}
+    <Box sx={{ p: 2, maxWidth: 500 }}>
+      <Typography variant="h6" gutterBottom>
+        Введите ID сотрудника, чьи данные хотите отредактировать
+      </Typography>
+
+      {notification && (
+        <Alert
+          severity={notification.severity}
+          icon={
+            notification.severity === 'success' ? (
+              <CheckIcon fontSize="inherit" />
+            ) : undefined
+          }
+          sx={{ mb: 2 }}
+        >
+          {notification.text}
+        </Alert>
+      )}
+
+      <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 1, mb: 3 }}>
+        <TextField
+          label="ID Сотрудника"
           value={targetId}
           onChange={(e) => setTargetId(e.target.value)}
+          error={!!errors.targetId}
+          helperText={errors.targetId}
+          variant="standard"
+          fullWidth
         />
-        <button
-          id="editing-employee-found-btn"
-          onClick={findEmployeeToEdit}
-          style={{ marginLeft: '5px' }}
-        >
+        <Button variant="contained" onClick={findEmployeeToEdit} sx={{ mt: 1 }}>
           Найти
-        </button>
+        </Button>
+      </Box>
 
-        {isFormVisible && (
-          <>
-            <h3>Введите новые данные о сотруднике</h3>
-            <div
-              id="employee-editing-form"
-              style={{ marginTop: '10px', display: 'flex' }}
+      {isFormVisible && (
+        <Box sx={{ mt: 2 }}>
+          <Typography variant="h6" gutterBottom sx={{ mb: 2 }}>
+            Введите новые данные о сотруднике
+          </Typography>
+
+          <Box
+            component="form"
+            sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
+          >
+            <TextField
+              label="ФИО"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              error={!!errors.name}
+              helperText={errors.name}
+              fullWidth
+            />
+
+            <TextField
+              label="Электронная почта"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              error={!!errors.email}
+              helperText={errors.email}
+              fullWidth
+            />
+
+            <TextField
+              label="Телефон"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              error={!!errors.phone}
+              helperText={errors.phone}
+              fullWidth
+            />
+
+            <TextField
+              label="Адрес"
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+              error={!!errors.address}
+              helperText={errors.address}
+              fullWidth
+            />
+
+            <TextField
+              label="Пароль"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              error={!!errors.password}
+              helperText={errors.password}
+              fullWidth
+            />
+
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={saveEmployeeChanges}
+              sx={{ mt: 1 }}
             >
-              <input
-                type="text"
-                placeholder="ФИО"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
-              <br />
-              <input
-                type="text"
-                placeholder="Электронная почта"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-              <br />
-              <input
-                type="text"
-                placeholder="Телефон"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-              />
-              <br />
-              <input
-                type="text"
-                placeholder="Адрес"
-                value={address}
-                onChange={(e) => setAddress(e.target.value)}
-              />
-              <br />
-              <input
-                type="text"
-                placeholder="Пароль"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-              <br />
-              <button
-                id="save-employee-changes-btn"
-                onClick={saveEmployeeChanges}
-                style={{ marginTop: '5px' }}
-              >
-                Сохранить изменения
-              </button>
-            </div>
-          </>
-        )}
-      </div>
-    </>
+              Сохранить изменения
+            </Button>
+          </Box>
+        </Box>
+      )}
+    </Box>
   );
 }
