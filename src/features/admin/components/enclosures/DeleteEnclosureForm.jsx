@@ -2,6 +2,7 @@ import { useState } from 'react';
 import SimpleEnclosureTable from './SimpleEnclosureTable';
 import { TextField, Button, Alert, Box, Typography } from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check';
+import AlertDialog from '../../../../components/MuiDialog';
 
 export default function DeleteEnclosureForm({ onDeleteSuccess }) {
   const [targetId, setTargetId] = useState('');
@@ -10,6 +11,8 @@ export default function DeleteEnclosureForm({ onDeleteSuccess }) {
 
   const [notification, setNotification] = useState(null);
   const [errorText, setErrorText] = useState('');
+
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const findEnclosureToDelete = () => {
     setNotification(null);
@@ -67,7 +70,7 @@ export default function DeleteEnclosureForm({ onDeleteSuccess }) {
   };
 
   return (
-    <Box sx={{ p: 2, maxWidth: 500 }}>
+    <Box sx={{ p: 2 }}>
       <Typography variant="h6" gutterBottom>
         Введите ID вольера для его удаления
       </Typography>
@@ -86,7 +89,15 @@ export default function DeleteEnclosureForm({ onDeleteSuccess }) {
         </Alert>
       )}
 
-      <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 1, mb: 3 }}>
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'flex-start',
+          gap: 1,
+          mb: 3,
+          maxWidth: 500,
+        }}
+      >
         <TextField
           label="ID Вольера"
           value={targetId}
@@ -99,7 +110,7 @@ export default function DeleteEnclosureForm({ onDeleteSuccess }) {
         <Button
           variant="contained"
           onClick={findEnclosureToDelete}
-          sx={{ mt: 1 }}
+          sx={{ mt: 1, backgroundColor: '#3e332e', color: '#ffdfdf' }}
         >
           Найти
         </Button>
@@ -116,10 +127,28 @@ export default function DeleteEnclosureForm({ onDeleteSuccess }) {
           <Button
             variant="contained"
             color="error"
-            onClick={confirmEnclosureDeletion}
+            sx={{
+              backgroundColor: '#ff4d4d',
+              color: 'white',
+              '&:hover': {
+                backgroundColor: '#fb7676',
+              },
+              '&:active': {
+                backgroundColor: '#8e0c0c',
+              },
+            }}
+            onClick={() => setIsDialogOpen(true)}
           >
             Удалить
           </Button>
+
+          <AlertDialog
+            open={isDialogOpen}
+            onClose={() => setIsDialogOpen(false)}
+            title="Удаление вольера"
+            message="Вы действительно хотите удалить вольер?"
+            onAgree={confirmEnclosureDeletion}
+          />
         </Box>
       )}
     </Box>

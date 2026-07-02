@@ -2,6 +2,7 @@ import { useState } from 'react';
 import SimpleEmployeeTable from './SimpleEmployeeTable';
 import { TextField, Button, Alert, Box, Typography } from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check';
+import AlertDialog from '../../../../components/MuiDialog';
 
 export default function DeleteEmployeeForm({ onDeleteSuccess }) {
   const [targetId, setTargetId] = useState('');
@@ -10,6 +11,8 @@ export default function DeleteEmployeeForm({ onDeleteSuccess }) {
 
   const [notification, setNotification] = useState(null);
   const [errorText, setErrorText] = useState('');
+
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const findEmployeeToDelete = () => {
 
@@ -101,7 +104,7 @@ export default function DeleteEmployeeForm({ onDeleteSuccess }) {
           <Button
             variant="contained"
             onClick={findEmployeeToDelete}
-            sx={{ mt: 1 }}
+            sx={{ mt: 1, backgroundColor: '#3e332e', color: '#ffdfdf' }}
           >
             Найти
           </Button>
@@ -119,10 +122,28 @@ export default function DeleteEmployeeForm({ onDeleteSuccess }) {
             <Button
               variant="contained"
               color="error"
-              onClick={confirmEmployeeDeletion}
+              onClick={() => setIsDialogOpen(true)}
+              sx={{
+                backgroundColor: '#ff4d4d',
+                color: 'white',
+                '&:hover': {
+                  backgroundColor: '#fb7676',
+                },
+                '&:active': {
+                  backgroundColor: '#8e0c0c',
+                },
+              }}
             >
               Удалить
             </Button>
+
+            <AlertDialog
+              open={isDialogOpen}
+              onClose={() => setIsDialogOpen(false)}
+              title="Удаление сотрудника"
+              message="Вы действительно хотите удалить сотрудника?"
+              onAgree={confirmEmployeeDeletion}
+            />
           </Box>
         </>
       )}

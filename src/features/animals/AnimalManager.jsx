@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import SimplePetTable from './components/SimplePetTable';
-import { TextField } from '@mui/material';
+import { Box, Button, TextField, Typography } from '@mui/material';
 
 export default function PetManager() {
     const [allPets, setAllPets] = useState([]);
@@ -27,28 +27,30 @@ export default function PetManager() {
     });
 
     return (
-      <div>
-        <h3>Поиск питомцев</h3>
-        <div style={{ marginBottom: '15px' }}>
+      <Box>
+        <Typography variant="h6" gutterBottom>
+          Поиск питомцев
+        </Typography>
+        <Box sx={{ mb: '15px' }}>
           <TextField
             label="ID, кличка, вид, вольер или статус..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            style={{
-              padding: '5px',
+            sx={{
+              p: '5px',
             }}
             variant="standard"
           />
           {searchQuery && (
-            <button
+            <Button
               onClick={() => setSearchQuery('')}
-              style={{ marginLeft: '5px' }}
+              sx={{ ml: '5px', backgroundColor: '#3e332e', color: '#ffdfdf' }}
             >
               Очистить
-            </button>
+            </Button>
           )}
-        </div>
+        </Box>
         <SimplePetTable pets={filteredPets} />
-      </div>
+      </Box>
     );
 }

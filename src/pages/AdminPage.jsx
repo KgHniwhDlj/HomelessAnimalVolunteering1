@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Box } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import CreateEmployeeForm from '../features/admin/components/employees/CreateEmployeeForm';
 import EmployeeManager from '../features/admin/components/employees/EmployeeManager';
 import DeleteEmployeeForm from '../features/admin/components/employees/DeleteEmployeeForm';
@@ -52,70 +52,83 @@ export default function AdminTables({ onLogout }) {
     return (
       <>
         <header>
-          <div
-            style={{
+          <Box
+            sx={{
               display: 'flex',
               justifyContent: 'space-between',
               alignItems: 'center',
-              margin: '10px 10px 10px 5px',
+              m: '10px 10px 10px 5px',
             }}
           >
-            <button className="exit-btn" onClick={onLogout}>
+            <Typography variant="h2" gutterBottom>
+              {isEmployeeTable ? 'Список сотрудников' : 'Список вольеров'}
+            </Typography>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={onLogout}
+              sx={{ mt: 1, backgroundColor: '#ffdfdf', color: '#3e332e' }}
+            >
               Выйти из системы
-            </button>
-          </div>
-
-          <h2>{isEmployeeTable ? 'Список сотрудников' : 'Список вольеров'}</h2>
+            </Button>
+          </Box>
         </header>
-        <button
-          className="change-table-btn"
+        <Button
+          variant="contained"
+          color="primary"
+          sx={{ mt: 1, backgroundColor: '#3e332e', color: '#ffdfdf' }}
           onClick={() => setIsEmployeeTable(!isEmployeeTable)}
-          style={{ margin: '5px 5px 5px 0' }}
         >
           {isEmployeeTable ? 'Перейти к вольерам' : 'Перейти к сотрудникам'}
-        </button>
+        </Button>
         {isEmployeeTable && (
-          <div
-            className="vertical-buttons"
-            style={{ margin: '10px 10px 10px 5px' }}
+          <Box
+            sx={{
+              m: '10px 10px 10px 5px',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '1px',
+            }}
           >
-            <button
-              className="pet-btn"
-              type="button"
+            <Button
+              variant="contained"
+              color="primary"
+              sx={{ mt: 1, backgroundColor: '#3e332e', color: '#ffdfdf' }}
               onClick={() => toggleTables(setIsCreateEmployeeOpen)}
             >
               Зарегистрировать сотрудника
-            </button>
+            </Button>
             {isCreateEmployeeOpen && (
-              <div style={{ margin: '10px 10px 10px 5px' }}>
+              <Box sx={{ m: '10px 10px 10px 5px' }}>
                 <CreateEmployeeForm
                   onSuccess={() => {
                     setIsCreateEmployeeOpen(false);
                     refreshEmployees();
                   }}
                 />
-              </div>
+              </Box>
             )}
-            <button
-              className="pet-btn"
+            <Button
+              variant="contained"
+              color="primary"
+              sx={{ mt: 1, backgroundColor: '#3e332e', color: '#ffdfdf' }}
               onClick={() => toggleTables(setIsFindEmployeeOpen)}
             >
               Найти сотрудника
-            </button>
+            </Button>
             {isFindEmployeeOpen && (
-              <div
-                id="find-employee-container"
-                style={{ margin: '10px 10px 10px 5px' }}
-              >
+              <Box sx={{ m: '10px 10px 10px 5px' }}>
                 <EmployeeManager />
-              </div>
+              </Box>
             )}
-            <button
-              className="pet-btn"
+            <Button
+              variant="contained"
+              color="primary"
+              sx={{ mt: 1, backgroundColor: '#3e332e', color: '#ffdfdf' }}
               onClick={() => toggleTables(setIsEditEmployeeOpen)}
             >
               Редактировать данные
-            </button>
+            </Button>
             {isEditEmployeeOpen && (
               <EditEmployeeForm
                 onEditSuccess={() => {
@@ -124,12 +137,14 @@ export default function AdminTables({ onLogout }) {
                 }}
               />
             )}
-            <button
-              className="pet-btn"
+            <Button
+              variant="contained"
+              color="primary"
+              sx={{ mt: 1, backgroundColor: '#3e332e', color: '#ffdfdf' }}
               onClick={() => toggleTables(setIsDeleteEmployeeOpen)}
             >
               Удалить сотрудника
-            </button>
+            </Button>
             {isDeleteEmployeeOpen && (
               <DeleteEmployeeForm
                 onDeleteSuccess={() => {
@@ -138,21 +153,26 @@ export default function AdminTables({ onLogout }) {
                 }}
               />
             )}
-          </div>
+          </Box>
         )}
 
         {!isEmployeeTable && (
-          <div
-            className="vertical-buttons"
-            style={{ margin: '10px 10px 10px 5px' }}
+          <Box
+            sx={{
+              m: '10px 10px 10px 5px',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '1px',
+            }}
           >
-            <button
-              className="pet-btn"
-              type="button"
+            <Button
+              variant="contained"
+              color="primary"
+              sx={{ mt: 1, backgroundColor: '#3e332e', color: '#ffdfdf' }}
               onClick={() => toggleTables(setIsCreateEnclosureOpen)}
             >
               Создать вольер
-            </button>
+            </Button>
             {isCreateEnclosureOpen && (
               <CreateEnclosureForm
                 onSuccess={() => {
@@ -161,24 +181,28 @@ export default function AdminTables({ onLogout }) {
                 }}
               />
             )}
-            <button
-              className="pet-btn"
+            <Button
+              variant="contained"
+              color="primary"
+              sx={{ mt: 1, backgroundColor: '#3e332e', color: '#ffdfdf' }}
               onClick={() => toggleTables(setIsFindEnclosureOpen)}
             >
               Найти вольер
-            </button>
+            </Button>
             {isFindEnclosureOpen && (
-              <div style={{ margin: '10px 10px 10px 5px' }}>
+              <Box style={{ margin: '10px 10px 10px 5px' }}>
                 <EnclosureManager />
-              </div>
+              </Box>
             )}
 
-            <button
-              className="pet-btn"
+            <Button
+              variant="contained"
+              color="primary"
+              sx={{ mt: 1, backgroundColor: '#3e332e', color: '#ffdfdf' }}
               onClick={() => toggleTables(setIsEditEnclosureOpen)}
             >
               Редактировать вольер
-            </button>
+            </Button>
             {isEditEnclosureOpen && !isEmployeeTable && (
               <EditEnclosureForm
                 onEditSuccess={() => {
@@ -187,12 +211,14 @@ export default function AdminTables({ onLogout }) {
                 }}
               />
             )}
-            <button
-              className="pet-btn"
+            <Button
+              variant="contained"
+              color="primary"
+              sx={{ mt: 1, backgroundColor: '#3e332e', color: '#ffdfdf' }}
               onClick={() => toggleTables(setIsDeleteEnclosureOpen)}
             >
               Удалить вольер
-            </button>
+            </Button>
             {isDeleteEnclosureOpen && !isEmployeeTable && (
               <DeleteEnclosureForm
                 onDeleteSuccess={() => {
@@ -201,7 +227,7 @@ export default function AdminTables({ onLogout }) {
                 }}
               />
             )}
-          </div>
+          </Box>
         )}
         {isEmployeeTable ? (
           <SimpleEmployeeTable employees={employees} />

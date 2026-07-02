@@ -134,7 +134,7 @@ export default function EditEnclosureForm({ onEditSuccess }) {
         <Button
           variant="contained"
           onClick={findEnclosureToEdit}
-          sx={{ mt: 1 }}
+          sx={{ mt: 1, backgroundColor: '#3e332e', color: '#ffdfdf' }}
         >
           Найти
         </Button>
@@ -192,7 +192,7 @@ export default function EditEnclosureForm({ onEditSuccess }) {
               variant="contained"
               color="primary"
               onClick={saveEnclosureChanges}
-              sx={{ mt: 1 }}
+              sx={{ mt: 1, backgroundColor: '#3e332e', color: '#ffdfdf' }}
             >
               Сохранить изменения
             </Button>

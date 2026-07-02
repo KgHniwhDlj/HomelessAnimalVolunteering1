@@ -122,7 +122,6 @@ export default function CreateEmployeeForm({ onSuccess }) {
         Введите данные нового сотрудника
       </Typography>
 
-
       {notification && (
         <Alert
           severity={notification.severity}
@@ -191,7 +190,7 @@ export default function CreateEmployeeForm({ onSuccess }) {
           variant="contained"
           color="primary"
           onClick={createNewEmployee}
-          sx={{ mt: 1 }}
+          sx={{ mt: 1, backgroundColor: '#3e332e', color: '#ffdfdf' }}
         >
           Добавить работника
         </Button>

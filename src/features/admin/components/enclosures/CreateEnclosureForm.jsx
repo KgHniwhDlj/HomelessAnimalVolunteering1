@@ -121,7 +121,7 @@ export default function CreateEnclosureForm({ onSuccess }) {
           variant="contained"
           color="primary"
           onClick={createNewEnclosure}
-          sx={{ mt: 1 }}
+          sx={{ mt: 1, backgroundColor: '#3e332e', color: '#ffdfdf' }}
         >
           Добавить вольер
         </Button>

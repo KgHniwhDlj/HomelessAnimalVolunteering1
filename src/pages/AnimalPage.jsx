@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { toggleTables } from "./AdminPage";
 import EditPetManager from '../features/animals/components/EditPetManager';
-import {Box} from "@mui/material";
+import { Box, Button, Typography } from '@mui/material';
 import CreatePetForm from '../features/animals/components/CreatePetForm';
 import PetManager from '../features/animals/AnimalManager';
 import SimplePetTable from '../features/animals/components/SimplePetTable';
@@ -31,24 +31,35 @@ export default function AnimalTable({ onLogout }) {
             margin: '0 10px 0 5px',
           }}
         >
-          <h1>Список животных</h1>
-          <button className="exit-btn" onClick={onLogout}>
+          <Typography variant="h2" gutterBottom>
+            Список животных
+          </Typography>
+          <Button
+            variant="contained"
+            color="primary"
+            sx={{ mt: 1, backgroundColor: '#ffdfdf', color: '#3e332e' }}
+            onClick={onLogout}
+          >
             Выйти из системы
-          </button>
+          </Button>
         </header>
 
-        <div
-          className="vertical-buttons"
-          style={{ margin: '10px 10px 10px 5px' }}
+        <Box
+          sx={{
+            m: '10px 10px 10px 5px',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '1px',
+          }}
         >
-          <button
-            id="create-pet-btn"
-            className="pet-btn"
-            type="button"
+          <Button
+            variant="contained"
+            color="primary"
+            sx={{ mt: 1, backgroundColor: '#3e332e', color: '#ffdfdf' }}
             onClick={() => toggleTables(setIsCreateAnimal)}
           >
             Зарегистрировать животное
-          </button>
+          </Button>
           {isCreateAnimal && (
             <CreatePetForm
               onSuccess={() => {
@@ -57,24 +68,26 @@ export default function AnimalTable({ onLogout }) {
               }}
             />
           )}
-          <button
-            id="find-pet-container-btn"
-            className="pet-btn"
+          <Button
+            variant="contained"
+            color="primary"
+            sx={{ mt: 1, backgroundColor: '#3e332e', color: '#ffdfdf' }}
             onClick={() => toggleTables(setIsFindAnimal)}
           >
             Найти животное
-          </button>
+          </Button>
           {isFindAnimal && <PetManager />}
-          <button
-            id="edit-pet-btn"
-            className="pet-btn"
+          <Button
+            variant="contained"
+            color="primary"
+            sx={{ mt: 1, backgroundColor: '#3e332e', color: '#ffdfdf' }}
             onClick={() => toggleTables(setIsEditAnimal)}
           >
             Редактировать данные
-          </button>
+          </Button>
           {isEditAnimal && <EditPetManager onPetsUpdated={refreshPets} />}
-        </div>
-            <SimplePetTable pets={pets} />
+        </Box>
+        <SimplePetTable pets={pets} />
       </>
     );
 }

@@ -25,7 +25,6 @@ export default function SimpleEmployeeTable({ employees }) {
     }
   }, [employees]);
 
-  //const displayList = employees || localEmployees;
 
   return (
     <>

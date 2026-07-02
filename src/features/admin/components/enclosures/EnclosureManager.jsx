@@ -41,7 +41,7 @@ export default function EnclosureManager() {
             variant="standard"
           />
           {searchQuery && (
-            <Button variant="contained" onClick={() => setSearchQuery('')}>
+            <Button variant="contained" sx={{ backgroundColor: '#3e332e', color: '#ffdfdf'}} onClick={() => setSearchQuery('')}>
           Очистить
           </Button>
           )}

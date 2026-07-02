@@ -1,18 +1,38 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Box, Button, TextField } from '@mui/material';
+import { Alert, Box, Button, TextField } from '@mui/material';
+import CheckIcon from '@mui/icons-material/Check';
 
 export default function AuthorizationForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
+  const [notification, setNotification] = useState(null);
+  const [errors, setErrors] = useState({});
+
   const authenticate = () => {
     const userEmail = email.trim();
     const userPassword = password;
 
-    if (userEmail === '' || userPassword === '') {
-      alert('Пожалуйста, введите данные');
+    setNotification(null);
+    setErrors({});
+
+    const newErrors = {};
+
+    if (!userEmail) {
+      newErrors.email = 'Пожалуйста, введите электронную почту';
+    }
+    if (!userPassword) {
+      newErrors.password = 'Пожалуйста, введите пароль';
+    }
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      setNotification({
+        text: 'Заполните все поля для входа',
+        severity: 'error',
+      });
       return;
     }
 
@@ -25,16 +45,18 @@ export default function AuthorizationForm() {
     const currentEmployees = savedData ? JSON.parse(savedData) : [];
 
     const foundEmployee = currentEmployees.find(
-      emp => emp.email.toLowerCase() === userEmail.toLowerCase()
+      (emp) => emp.email.toLowerCase() === userEmail.toLowerCase(),
     );
 
     if (!foundEmployee) {
-      alert("Пользователя с такой почтой не существует!");
+      setErrors({ email: 'Пользователя с такой почтой не существует!' });
+      setNotification({ text: 'Пользователь не найден', severity: 'error' });
       return;
     }
 
     if (foundEmployee.password !== userPassword) {
-      alert("Неверный пароль!");
+      setErrors({ password: 'Неверный пароль!' });
+      setNotification({ text: 'Неверный пароль', severity: 'error' });
       return;
     }
 
@@ -54,11 +76,27 @@ export default function AuthorizationForm() {
         margin: '0 auto',
       }}
     >
+      {notification && (
+        <Alert
+          severity={notification.severity}
+          icon={
+            notification.severity === 'success' ? (
+              <CheckIcon fontSize="inherit" />
+            ) : undefined
+          }
+          sx={{ mb: 2 }}
+        >
+          {notification.text}
+        </Alert>
+      )}
+
       <TextField
         id="outlined-required"
         label="Электронная почта"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
+        error={!!errors.email}
+        helperText={errors.email}
         fullWidth
       />
 
@@ -69,13 +107,15 @@ export default function AuthorizationForm() {
         autoComplete="current-password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
+        error={!!errors.password}
+        helperText={errors.password}
         fullWidth
       />
 
       <Button
         variant="contained"
         onClick={authenticate}
-        sx={{ mt: 1 }}
+        sx={{ mt: 1, backgroundColor: '#3e332e', color: '#ffdfdf' }}
       >
         Войти
       </Button>

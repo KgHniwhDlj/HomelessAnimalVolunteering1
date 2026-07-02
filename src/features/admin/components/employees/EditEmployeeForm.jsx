@@ -164,7 +164,11 @@ export default function EditEmployeeForm({ onEditSuccess }) {
           variant="standard"
           fullWidth
         />
-        <Button variant="contained" onClick={findEmployeeToEdit} sx={{ mt: 1 }}>
+        <Button
+          variant="contained"
+          onClick={findEmployeeToEdit}
+          sx={{ mt: 1, backgroundColor: '#3e332e', color: '#ffdfdf' }}
+        >
           Найти
         </Button>
       </Box>
@@ -228,7 +232,7 @@ export default function EditEmployeeForm({ onEditSuccess }) {
               variant="contained"
               color="primary"
               onClick={saveEmployeeChanges}
-              sx={{ mt: 1 }}
+              sx={{ mt: 1, backgroundColor: '#3e332e', color: '#ffdfdf' }}
             >
               Сохранить изменения
             </Button>

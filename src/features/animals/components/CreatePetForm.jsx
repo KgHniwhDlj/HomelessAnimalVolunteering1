@@ -1,12 +1,16 @@
 import BasicSelect from '../../../components/MuiSelect';
 import { useState } from 'react';
 import { useEnclosures } from '../../../hooks/UseEnclosures';
-import { TextField } from '@mui/material';
+import { Alert, Box, Button, TextField, Typography } from '@mui/material';
+import CheckIcon from '@mui/icons-material/Check';
 
 export default function CreatePetForm({ onSuccess }) {
   const [name, setName] = useState('');
   const [enclosure, setEnclosure] = useState('');
   const [description, setDescription] = useState('');
+
+  const [notification, setNotification] = useState(null);
+  const [errors, setErrors] = useState({});
 
   const fieldStyle = {
     width: '250px',
@@ -19,23 +23,23 @@ export default function CreatePetForm({ onSuccess }) {
   const createNewAnimal = () => {
     let currentEmployeeId = localStorage.getItem('current_user_id') || '1';
 
-    if (
-      !name.trim() ||
-      !species ||
-      !enclosure ||
-      !condition ||
-      !status ||
-      !description.trim()
-    ) {
-      alert('Пожалуйста, заполните все поля');
-      return;
-    }
-    if (description.length > 500) {
-      alert('Описание слишком длинное!');
-      return;
-    }
-    if (name.length > 50) {
-      alert('Кличка слишком длинная!');
+    setNotification(null);
+    const newErrors = {};
+
+
+    if (!name.trim()) newErrors.name = 'Пожалуйста, заполните кличку';
+    if (!species) newErrors.species = 'Пожалуйста, заполните вид';
+    if (!enclosure) newErrors.enclosure = 'Пожалуйста, заполните вольер';
+    if (!condition) newErrors.condition = 'Пожалуйста, заполните состояние';
+    if (!status) newErrors.status = 'Пожалуйста, заполните статус';
+    if (!description.trim()) newErrors.description = 'Пожалуйста, заполните описание';
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      setNotification({
+        text: 'Пожалуйста, заполните все обязательные поля',
+        severity: 'error',
+      });
       return;
     }
 
@@ -66,7 +70,12 @@ export default function CreatePetForm({ onSuccess }) {
     const currentPets = savedPets ? JSON.parse(savedPets) : [];
     localStorage.setItem('pets', JSON.stringify([...currentPets, animalData]));
 
-    alert('Питомец успешно добавлен!');
+    setNotification({
+      text: 'Сотрудник успешно добавлен!',
+      severity: 'success',
+    });
+    setErrors({});
+
     setName('');
     setDescription('');
     setSpecies('');
@@ -110,55 +119,78 @@ export default function CreatePetForm({ onSuccess }) {
   ];
 
   return (
-    <div id="create-new-pet-form" style={{ margin: '10px 10px 10px 5px' }}>
-      <h3>Введите данные нового питомца</h3>
+    <Box sx={{ p: 2, maxWidth: 400 }}>
+      <Typography variant="h6" gutterBottom>
+        Введите данные нового питомца
+      </Typography>
 
-      <TextField
-        label="Кличка"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-      />
-      <BasicSelect
-        label="Вид"
-        options={speciesList}
-        value={species}
-        onChange={(e) => setSpecies(e.target.value)}
-      />
-      <BasicSelect
-        label="Вольер"
-        options={enclosuresList}
-        value={enclosure}
-        onChange={(e) => setEnclosure(e.target.value)}
-      />
-      <BasicSelect
-        label="Состояние"
-        options={conditionList}
-        value={condition}
-        onChange={(e) => setCondition(e.target.value)}
-      />
-      <BasicSelect
-        label="Статус"
-        options={statusList}
-        value={status}
-        onChange={(e) => setStatus(e.target.value)}
-      />
+      {notification && (
+        <Alert
+          severity={notification.severity}
+          icon={
+            notification.severity === 'success' ? (
+              <CheckIcon fontSize="inherit" />
+            ) : undefined
+          }
+          sx={{ mb: 2 }}
+        >
+          {notification.text}
+        </Alert>
+      )}
+      <Box
+        component="form"
+        sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
+      >
+        <TextField
+          label="Кличка"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+        <BasicSelect
+          label="Вид"
+          options={speciesList}
+          value={species}
+          onChange={(e) => setSpecies(e.target.value)}
+        />
+        <BasicSelect
+          label="Вольер"
+          options={enclosuresList}
+          value={enclosure}
+          onChange={(e) => setEnclosure(e.target.value)}
+        />
+        <BasicSelect
+          label="Состояние"
+          options={conditionList}
+          value={condition}
+          onChange={(e) => setCondition(e.target.value)}
+        />
+        <BasicSelect
+          label="Статус"
+          options={statusList}
+          value={status}
+          onChange={(e) => setStatus(e.target.value)}
+        />
 
-      <TextField
-        label="Описание"
-        placeholder="Описание"
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-        multiline
-        rows={4}
-        style={{
-          marginTop: '8px',
-        }}
-      />
-      <br />
-
-      <button onClick={createNewAnimal} style={{ margin: '5px 5px 5px 0' }}>
-        Зарегистрировать животное
-      </button>
-    </div>
+        <TextField
+          label="Описание"
+          placeholder="Описание"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          multiline
+          rows={4}
+          style={{
+            marginTop: '8px',
+          }}
+        />
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={createNewAnimal}
+          sx={{ mt: 1, backgroundColor: '#3e332e', color: '#ffdfdf' }}
+        >
+          Зарегистрировать животное
+        </Button>
+      </Box>
+    </Box>
   );
 }
